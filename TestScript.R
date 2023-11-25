@@ -15,7 +15,7 @@ testthat::test_that("The space must be removed so the text has excatly 1", {
 text <- "This is a very long character vector. Why is it so long? I think lng. is short for long. I want to split this vector into senteces by using e.g. strssplit. Can someone help me? That would be nice?"
 out <- tokenize_sentences(text)
 print(out)
-testthat::test_that("The space must be removed so the text has excatly 1", {
+testthat::test_that("There must be 6 sentences", {
   testthat::expect_equal(length(out), 6)
   testthat::expect_equal(out[1], "This is a very long character vector.")
   testthat::expect_equal(out[2], "Why is it so long?")

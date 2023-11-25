@@ -37,36 +37,59 @@ tokenize_sentences <- function(text) {
   return(unlist(sentences))
 }
 
-#unlist(strsplit(string, "(?<=[[:punct:]])\\s(?=[A-Z])", perl=T))
+tokenize <- function(text, what=c("word", "sentence"), remove_numbers = FALSE, remove_punct = FALSE, remove_symbols = FALSE, 
+                     remove_separators = TRUE, remove_hyphens = FALSE, remove_url = FALSE) {
+  
+  return(c(0))
+}
+
+# This function will provide the most frequently use words in a text
+# x - text to parse 
+# top - indicated the limit to return after the operation is complete
+# show_graph - is TRUE a Graph will be created as sidde effect
+word_frequency <- function(x, top = 10, show_graph=FALSE){
+  
+  x %>%
+    
+  # We need a word count
+  count(Word, sort = TRUE) %>%
+  
+  # We want to create a factor from the word column with the levels showing the most frequent words as top level
+  # This is just for aestethic reasons, however, it helps make the point
+  mutate(Word = factor(Word, levels = rev(unique(Word)))) %>% 
+  # We use the "top" variable defined in the function so we can decide how many words we want to use 
+  top_n(top) %>%
+  
+  # Could be useful if grouping variable is necessary
+  ungroup() %>%
+  
+  # The graph itself
+  if(showGraph) {
+    ggplot(mapping = aes(x = Word, y = n)) +
+    geom_col(show.legend = FALSE) +
+    coord_flip() +
+    labs(x = NULL)
+  }
+}
 
 
 
-stem_text <- function(text) {
-  # Convert the text to lowercase
+
+remove_stop_words <- function(text, additional=stopwords) {
+  # Convert text to lowercase
   text <- tolower(text)
   
-  # Remove common prefixes
-  prefixes <- c("un-", "re-", "pre-", "dis-", "mis-", "in-", "ex-")
-  for (prefix in prefixes) {
-    text <- gsub(prefix, "", text)
-  }
+  # Split text into words
+  words <- gsub("[^[:space:]]+", " ", text)
   
-  # Remove common suffixes
-  suffixes <- c("-able", "-ible", "-ative", "-ive", "-ize", "-ize", "-ify", "-ify")
-  for (suffix in suffixes) {
-    text <- gsub(suffix, "", text)
-  }
+  # Remove stopwords
+  words <- words[!words %in% stopwords]
   
-  # Remove common suffixes (ing, er, s)
-  stemmed_text <- gsub("ing\\b", "", text)
-  stemmed_text <- gsub("er\\b", "", stemmed_text)
-  stemmed_text <- gsub("s\\b", "", stemmed_text)
+  # Paste words back together into a string
+  text <- paste(words, collapse = " ")
   
-  # Remove any remaining punctuation
-  text <- gsub("[^[:alnum:]]", "", text)
-  
-  # Return the stemmed text
   return(text)
 }
+
 
 
