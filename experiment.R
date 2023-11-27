@@ -1,4 +1,4 @@
-rm(list=ls())
+#rm(list=ls())
 
 install.packages("tidytext")
 install.packages("tidyverse")

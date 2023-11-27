@@ -37,12 +37,31 @@ tokenize_sentences <- function(text) {
   return(unlist(sentences))
 }
 
-tokenize_all <- function(text, what=c("word", "sentence"), remove_numbers = FALSE, remove_punct = FALSE, 
+tokenize_corpus <- function(corpus, what=c("word", "sentence"), remove_numbers = FALSE, remove_punct = FALSE, 
                 remove_symbols = FALSE, remove_separators = TRUE, remove_hyphens = FALSE, remove_url = FALSE) {
   
-  lex <- match.arg(lexicon)
+  if(is.null(corpus)){
+    stop("corpus cannot be NULL")
+  }
   
-  return(c(0))
+  if(!is.null(what)){
+    token_type <- match.arg(what)
+    
+    if (token_type == "word") {
+      corpus <- tokenize_words(corpus)
+    }
+    else if (token_type == "sentence") {
+      corpus <- tokenize_sentences(corpus)
+    }
+  }
+  
+  # Remove numbers using gsub
+  if(remove_numbers) {
+    corpus <- gsub("\\d", "", corpus)
+  }
+  
+  
+  return(corpus)
 }
 
 # This function will provide the most frequently use words in a text
@@ -98,32 +117,32 @@ remove_stop_words <- function(text, additionalwords=NULL) {
 
 
 getSentiment <- function (lexicon = c("afinn", "bing", "loughran", "nrc"))  {
-       data(list = "sentiments", package = "tidytext", envir = environment())
-       lex <- match.arg(lexicon)
-       if (lex == "afinn") {
-           if (!requireNamespace("textdata", quietly = TRUE)) {
-               stop("The textdata package is required to download the AFINN lexicon. \nInstall the textdata package to access this dataset.", 
-                   call. = FALSE)
-          }
-           return(textdata::lexicon_afinn())
+     data(list = "sentiments", package = "tidytext", envir = environment())
+     lex <- match.arg(lexicon)
+     if (lex == "afinn") {
+         if (!requireNamespace("textdata", quietly = TRUE)) {
+             stop("The textdata package is required to download the AFINN lexicon. \nInstall the textdata package to access this dataset.", 
+                 call. = FALSE)
+        }
+         return(textdata::lexicon_afinn())
+     }
+    else if (lex == "nrc") {
+       if (!requireNamespace("textdata", quietly = TRUE)) {
+           stop("The textdata package is required to download the NRC word-emotion association lexicon. \nInstall the textdata package to access this dataset.", 
+               call. = FALSE)
        }
-      else if (lex == "nrc") {
-         if (!requireNamespace("textdata", quietly = TRUE)) {
-             stop("The textdata package is required to download the NRC word-emotion association lexicon. \nInstall the textdata package to access this dataset.", 
-                 call. = FALSE)
-         }
-         return(textdata::lexicon_nrc())
-     }
-     else if (lex == "loughran") {
-         if (!requireNamespace("textdata", quietly = TRUE)) {
-             stop("The textdata package is required to download the Loughran-McDonald lexicon. \nInstall the textdata package to access this dataset.", 
-                 call. = FALSE)
-         }
-         return(textdata::lexicon_loughran())
-     }
-     else if (lex == "bing") {
-         return(sentiments)
-     }
+       return(textdata::lexicon_nrc())
+   }
+   else if (lex == "loughran") {
+       if (!requireNamespace("textdata", quietly = TRUE)) {
+           stop("The textdata package is required to download the Loughran-McDonald lexicon. \nInstall the textdata package to access this dataset.", 
+               call. = FALSE)
+       }
+       return(textdata::lexicon_loughran())
+   }
+   else if (lex == "bing") {
+       return(sentiments)
+   }
  }
 
 
