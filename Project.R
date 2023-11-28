@@ -10,6 +10,7 @@ install.packages("textdata")
 install.packages("sentimentr")
 #install.packages("zoo")
 #install.packages("flextable")
+install.packages("wordcloud") 
 
 
 # activate packages
@@ -21,7 +22,11 @@ library(tidytext)
 library(tidyverse)
 library(textdata)
 #library(Hmisc)
+library(reshape2)
 library(sentimentr)
+
+library(wordcloud)
+
 #library(zoo)
 #library(flextable)
 
@@ -51,6 +56,11 @@ products <- annotateSubjects(emotions)
 head(products, 10)
 
 emotionGraph(products, emotions_by_subject=TRUE)
+
+# Check words that have contributed to the emotionality of scores
+topWordsForEachEmotion(emotions)
+
+wordCloudGraph(reviews, "bing")
 
 
 

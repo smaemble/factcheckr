@@ -95,29 +95,6 @@ reviews_tidy %>%
 
 library(reshape2)
 #> 
-#> Attaching package: 'reshape2'
-#> The following object is masked from 'package:tidyr':
-#> 
-#>     smiths
-reviews_tidy %>%
-  inner_join(get_sentiments("bing"), by = c("Word" = "word")) %>%
-  count(Word, sentiment, sort = TRUE) %>%
-  acast(Word ~ sentiment, value.var = "n", fill = 0) %>%
-  comparison.cloud(colors = c("#202121", "#797C80"), max.words = 55)
-
-# ==========
-
-reviews_tidy %>% 
-  inner_join(sentiment_type("bing"), by = c("Word" = "word")) %>% 
-  count(Word, sentiment, sort=TRUE) %>%
-  acast(Word ~ sentiment,value.var = "n" , fill = 0) %>%
-  comparison.cloud(colors = c("red" , "dark green") , max.words = 50)
-
-
-
-counting_words <- reviews_tidy %>% 
-  inner_join(sentiment_type("bing"), by = c("Word" = "word")) %>% 
-  count(Word,sentiment,sort=TRUE)
 
 #head(counting_words)
 

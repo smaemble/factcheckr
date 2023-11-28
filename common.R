@@ -215,6 +215,39 @@ emotionGraph <- function(subjects, emotions_by_subject = FALSE) {
   }
 }
 
+
+# Check words that have contributed to the emotionality of scores. 
+# In other words, we investigate, which words are more important for the emotion scores within each subject. 
+# For the sake of interpretability, we will remove several core emotion categories and also the polarity.
+topWordsForEachEmotion <- function(subjects_annotation){
+  subjects_annotation %>%
+  dplyr::filter(!is.na(sentiment),
+                sentiment != "anticipation",
+                sentiment != "surprise",
+                sentiment != "disgust",
+                sentiment != "negative",
+                sentiment != "sadness",
+                sentiment != "positive") %>%
+  dplyr::mutate(sentiment = factor(sentiment, levels = c("anger", "fear",  "trust", "joy"))) %>%
+  dplyr::group_by(Subject) %>%
+  dplyr::count(Word, sentiment, sort = TRUE) %>%
+  dplyr::group_by(Subject, sentiment) %>%
+  dplyr::top_n(4) %>%
+  dplyr::mutate(score = n/sum(n))
+}
+
+
+wordCloudGraph <- function(text, lexicon = c("afinn", "bing", "loughran", "nrc"), maxWords = 50) {
+  lex <- match.arg(lexicon)
+  
+  text %>%
+  inner_join(genSentiment(lex), by = c("Word" = "word")) %>%
+  count(Word, sentiment, sort = TRUE) %>%
+  reshape2::acast(Word ~ sentiment, value.var = "n", fill = 0) %>%
+  # colors = c("#202121", "#797C80")  
+  comparison.cloud(colors = c("red" , "dark green"), max.words = maxWords)
+}
+
   
 
 
