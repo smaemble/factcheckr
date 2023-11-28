@@ -35,14 +35,6 @@ reviews_tidy <- reviews %>%
   unnest_tokens("Word", "Text") %>%
   anti_join(stop_words, by = c("Word" = "word")) %>% # anti_join just keeps the rows common to both data sets
   mutate(Word = str_replace(Word, "'s", "")) %>%
-  mutate(Word = str_replace(Word, "OnePlus 7", "OnePlus_7"))
-# The graph is the same as before, we just changed the dataset
-#reviews_tidy %>%
-  #word_frequency(15)
-
-
-
-reviews_tidy %>%
   anti_join(data.frame(word = c("oneplus")), by = c("Word" = "word")) %>%
   group_by(Model) %>% 
   word_frequency(5) +
@@ -127,8 +119,11 @@ counting_words <- reviews_tidy %>%
   inner_join(sentiment_type("bing"), by = c("Word" = "word")) %>% 
   count(Word,sentiment,sort=TRUE)
 
-head(counting_words)
+#head(counting_words)
 
 counting_words %>% filter(n > 15) %>% mutate(n = ifelse(sentiment=="negative",-n,n)) %>%
   mutate(Word=reorder(Word,n)) %>%
   ggplot(aes(Word,n,fill=sentiment)) + geom_col() + coord_flip() + labs(y="Sentiment Score")
+
+
+

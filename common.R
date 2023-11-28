@@ -2,19 +2,15 @@
 # Turn a text into tokens.
 # text  - text to be tokenized
 # words - an arrays of tokens to return
-tokenize_words <- function(text) {
+tokenizeWords <- function(text) {
   # Remove non-alphanumeric characters
   text <- gsub("[^[:alnum:]]", " ", text)
-  
   # Convert text to lowercase
   text <- tolower(text)
-  
   # Split text into words
   words <- strsplit(text, " ")
-  
   # Remove empty strings
   words <- sapply(words, function(x) x[!x == ""])
-  
   # Return the tokenized text
   return(words)
 }
@@ -23,7 +19,7 @@ tokenize_words <- function(text) {
 # Turn any text into sentences.
 # text  - text to be tokenized into sentences
 # words - an arrays of tokens sentences
-tokenize_sentences <- function(text) {
+tokenizeSentences <- function(text) {
   # Convert the text to a character vector
   text <- as.character(text)
   
@@ -37,9 +33,8 @@ tokenize_sentences <- function(text) {
   return(unlist(sentences))
 }
 
-tokenize_corpus <- function(corpus, what=c("word", "sentence"), remove_numbers = FALSE, remove_punct = FALSE, 
+tokenizeCorpus <- function(corpus, what=c("word", "sentence"), remove_numbers = FALSE, remove_punct = FALSE, 
                 remove_symbols = FALSE, remove_separators = TRUE, remove_hyphens = FALSE, remove_url = FALSE) {
-  
   if(is.null(corpus)){
     stop("corpus cannot be NULL")
   }
@@ -48,10 +43,10 @@ tokenize_corpus <- function(corpus, what=c("word", "sentence"), remove_numbers =
     token_type <- match.arg(what)
     
     if (token_type == "word") {
-      corpus <- tokenize_words(corpus)
+      corpus <- tokenizeWords(corpus)
     }
     else if (token_type == "sentence") {
-      corpus <- tokenize_sentences(corpus)
+      corpus <- tokenizeSentences(corpus)
     }
   }
   
@@ -60,7 +55,6 @@ tokenize_corpus <- function(corpus, what=c("word", "sentence"), remove_numbers =
     corpus <- gsub("\\d", "", corpus)
   }
   
-  
   return(corpus)
 }
 
@@ -68,7 +62,7 @@ tokenize_corpus <- function(corpus, what=c("word", "sentence"), remove_numbers =
 # x - text to parse 
 # top - indicated the limit to return after the operation is complete
 # show_graph - is TRUE a Graph will be created as sidde effect
-word_frequency <- function(x, top = 10){
+frequencyGraph <- function(x, top = 10){
   
   x %>%
     
@@ -77,7 +71,7 @@ word_frequency <- function(x, top = 10){
   
   # We want to create a factor from the word column with the levels showing the most frequent words as top level
   # This is just for aestethic reasons, however, it helps make the point
-  mutate(Word = factor(Word, levels = rev(unique(Word)))) %>% 
+  
   # We use the "top" variable defined in the function so we can decide how many words we want to use 
   top_n(top) %>%
   
@@ -93,30 +87,7 @@ word_frequency <- function(x, top = 10){
 }
 
 
-
-
-# Define a custom function to remove stop words
-remove_stop_words <- function(text, additionalwords=NULL) {
-  # Convert text to lowercase
-  text <- tolower(text)
-  
-  # Split text into words
-  words <- gsub("[^[:space:]]+", " ", text)
-  
-  # Create a set of stop words for faster lookup
-  stop_words_set <- stop_words %>% pull(word) %>% unique()
-  
-  # Filter out stop words
-  filtered_words <- words[!(words %in% stop_words_set)]
-  
-  # Paste filtered words back together into a string
-  text <- paste(filtered_words, collapse = " ")
-  
-  return(text)
-}
-
-
-getSentiment <- function (lexicon = c("afinn", "bing", "loughran", "nrc"))  {
+genSentiment <- function (lexicon = c("afinn", "bing", "loughran", "nrc"))  {
      data(list = "sentiments", package = "tidytext", envir = environment())
      lex <- match.arg(lexicon)
      if (lex == "afinn") {
@@ -143,7 +114,71 @@ getSentiment <- function (lexicon = c("afinn", "bing", "loughran", "nrc"))  {
    else if (lex == "bing") {
        return(sentiments)
    }
- }
+}
+
+# x - the corpus to clean
+# title - Column title to be added into the corpus analysis
+# Side effect, this clean function will also remove stop words
+# This function is expected to return words
+cleanTxt <- function(x, title){
+  require(dplyr)
+  require(stringr)
+  require(tibble)
+  
+  x <- x %>%
+    iconv(to = "UTF-8") %>%
+    base::tolower() %>%
+    paste0(collapse = " ") %>%
+    stringr::str_squish()%>%
+    # split the corpus to create words by calling our tokenize function
+    tokenizeWords %>%
+    # Convert object to one dimensional vector
+    unlist() %>%
+    tibble::tibble() %>%
+    dplyr::select(Word = 1, everything()) %>%
+    # Add a new column Subject
+    dplyr::mutate(Subject = title) %>%
+    # Remove all stop words
+    dplyr::anti_join(stop_words, by = c("Word" = "word")) %>%
+    # Remove any non words
+    dplyr::mutate(Word = str_remove_all(Word, "\\W")) %>%
+    # filtered empty space
+    dplyr::filter(Word != "")
+}
+
+
+# list_of_dfs - List of data frames for each product reviews 
+# The analysis can be done in as many as 4 products simultaneously
+# Combine Word Emotion Association Lexicon
+combineEmotion <- function(list_of_dfs){
+  # Combine the arrayOfWords vector
+  if(length(list_of_dfs) > 4){
+    stop ("Currently supporting 4 products reviews simultaneously")
+  }
+  #rbind(arrayOfWords) %>%
+  do.call(rbind, list_of_dfs) %>%
+  # Groupby the subject column created during the cleaning phase  
+  dplyr::group_by(Subject) %>%
+  #provide a score for each words
+  dplyr::mutate(words = n()) %>%
+  dplyr::inner_join(genSentiment("nrc"), by = c("Word" = "word")) %>%
+  # create the sentment column using the lexicon words to descripte emotion  
+  dplyr::mutate(Subject = factor(Subject), sentiment = factor(sentiment))
+}
+
+
+
+annotateSubjects <- function(annotations) {
+  annotation %>%
+  dplyr::group_by(Subject) %>%
+  dplyr::group_by(Subject, sentiment) %>%
+  dplyr::summarise(sentiment = unique(sentiment),
+                   sentiment_freq = n(),
+                   words = unique(words)) %>%
+  dplyr::filter(is.na(sentiment) == F) %>%
+  dplyr::mutate(percentage = round(sentiment_freq/words*100, 1))
+}
+
 
 
 
