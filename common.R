@@ -62,7 +62,7 @@ tokenizeCorpus <- function(corpus, what=c("word", "sentence"), remove_numbers = 
 # x - text to parse 
 # top - indicated the limit to return after the operation is complete
 # show_graph - is TRUE a Graph will be created as sidde effect
-frequencyGraph <- function(x, top = 10){
+frequencyGraph <- function(x, top = 10) {
   
   x %>%
     
@@ -71,7 +71,7 @@ frequencyGraph <- function(x, top = 10){
   
   # We want to create a factor from the word column with the levels showing the most frequent words as top level
   # This is just for aestethic reasons, however, it helps make the point
-  
+  mutate(Word = factor(Word, levels = rev(unique(Word)))) %>%
   # We use the "top" variable defined in the function so we can decide how many words we want to use 
   top_n(top) %>%
   
@@ -166,18 +166,56 @@ combineEmotion <- function(list_of_dfs){
   dplyr::mutate(Subject = factor(Subject), sentiment = factor(sentiment))
 }
 
-
-
-annotateSubjects <- function(annotations) {
-  annotation %>%
+# emotions - the annotation of different emotion in the subject
+# Summarize the results of the Sentiment Analysis and calculate the percentages of the 
+# prevalence of emotions across different subjects(Products) under analysis.
+annotateSubjects <- function(emotions) {
+  emotions %>%
   dplyr::group_by(Subject) %>%
   dplyr::group_by(Subject, sentiment) %>%
   dplyr::summarise(sentiment = unique(sentiment),
                    sentiment_freq = n(),
                    words = unique(words)) %>%
+  # filter out any sentiment that has NA  
   dplyr::filter(is.na(sentiment) == F) %>%
+    
+  # create a new column name percentage that has each emotion frequency  
   dplyr::mutate(percentage = round(sentiment_freq/words*100, 1))
 }
+
+# visualize the results and show the scores for each core emotion by subjects(Products)
+# subjects - The subjects to draw emotions from.
+# display the emotions by subject and re-level sentiment so that the different core emotions are 
+#              ordered from more negative (red) to more positive (blue)
+emotionGraph <- function(subjects, emotions_by_subject = FALSE) {
+  if(emotions_by_subject) {
+    subjects %>%
+    dplyr::filter(sentiment != "positive",
+                  sentiment != "negative") %>%
+      dplyr::mutate(sentiment = factor(sentiment, 
+                                       levels = c("anger", "fear", "disgust", "sadness",
+                                                  "surprise", "anticipation", "trust", "joy"))) %>%
+      ggplot(aes(Subject, percentage, fill = sentiment)) +    
+      geom_bar(stat="identity", position=position_dodge()) + 
+      scale_fill_brewer(palette = "RdBu") +
+      theme_bw() +
+      theme(legend.position = "right") +
+      coord_flip()
+    
+  } else {
+    
+    dplyr::filter(sentiment != "positive",
+                  sentiment != "negative") %>%
+    ggplot(aes(sentiment, percentage, fill = Subject)) +    
+    geom_bar(stat="identity",   
+             position=position_dodge()) + 
+    scale_fill_manual(name = "", values=c("gray70", "orange", "red", "grey30")) +
+    theme_bw() +
+    theme(legend.position = "top")
+  }
+}
+
+  
 
 
 

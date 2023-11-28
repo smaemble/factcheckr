@@ -35,8 +35,6 @@ unique(reviews2$name)
 
 #head(reviews2)
 #reviews1$Review
-#stop_words
-
 
 # collapse all rows of review column into a single text element
 reviews <- paste(reviews1$Review, collapse = " ")
@@ -50,8 +48,9 @@ emotions <- combineEmotion(list(reviews))
 frequencyGraph(emotions, 25)
 
 products <- annotateSubjects(emotions)
+head(products, 10)
 
-
+emotionGraph(products, emotions_by_subject=TRUE)
 
 
 
