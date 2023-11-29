@@ -8,7 +8,7 @@ install.packages("tidyverse")
 install.packages("textdata")
 #install.packages("Hmisc")
 install.packages("sentimentr")
-#install.packages("zoo")
+install.packages("zoo")
 #install.packages("flextable")
 install.packages("wordcloud") 
 
@@ -24,10 +24,9 @@ library(textdata)
 #library(Hmisc)
 library(reshape2)
 library(sentimentr)
-
 library(wordcloud)
+library(zoo)
 
-#library(zoo)
 #library(flextable)
 
 source("common.R")
@@ -51,30 +50,35 @@ reviews <- paste(reviews1$Review, collapse = " ")
 reviews <- cleanTxt(reviews, "Hotel")
 data.review2 <- cleanTxt(data.review2, "Super8")
 
-emotions <- combineEmotion(list(reviews, data.review2))
+subjectsAnnotations <- combineSubjects(list(reviews, data.review2))
 
 # Draw the frequency graph
-frequencyGraph(emotions, 25)
+frequencyGraph(subjectsAnnotations, 25)
 
-products <- annotateSubjects(emotions)
-head(products, 10)
+subjects <- emotionPrevalenceBySubjects(subjectsAnnotations)
+head(subjects, 10)
 
-emotionGraph(products, emotions_by_subject=TRUE)
+emotionGraph(subjects, emotions_by_subject=TRUE)
 
 
 source("common.R")
 source("graph.R")
 # Check words that have contributed to the emotionality of scores
-wordsByEmotion <- topWordsByEmotion(emotions)
+wordsByEmotion <- topWordsByEmotion(subjectsAnnotations)
 head(wordsByEmotion, 50)
 #word cloud
 wordCloudGraph(reviews, "bing")
 wordCloudGraph(data.review2, "bing")
 
-polarityGraph(products)
+polarityGraph(subjects)
 
-head(products, 10)
+head(subjects, 10)
 emotionBySubjectGraph(wordsByEmotion)
 
+# Calculate the polarity change overtime
+movingAverage <- polarityChangesOverTime(subjectsAnnotations)
 
+head(movingAverage, 10)
+head(subjectsAnnotations, 10)
 
+magplot(movingAverage)

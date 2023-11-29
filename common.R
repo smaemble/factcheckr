@@ -150,7 +150,7 @@ cleanTxt <- function(x, title){
 # list_of_dfs - List of data frames for each product reviews 
 # The analysis can be done in as many as 4 products simultaneously
 # Combine Word Emotion Association Lexicon
-combineEmotion <- function(list_of_dfs){
+combineSubjects <- function(list_of_dfs){
   # Combine the arrayOfWords vector
   if(length(list_of_dfs) > 4){
     stop ("Currently supporting 4 products reviews simultaneously")
@@ -169,8 +169,8 @@ combineEmotion <- function(list_of_dfs){
 # emotions - the annotation of different emotion in the subject
 # Summarize the results of the Sentiment Analysis and calculate the percentages of the 
 # prevalence of emotions across different subjects(Products) under analysis.
-annotateSubjects <- function(emotions) {
-  emotions %>%
+emotionPrevalenceBySubjects <- function(subjectsAnnotations) {
+  subjectsAnnotations %>%
   dplyr::group_by(Subject) %>%
   dplyr::group_by(Subject, sentiment) %>%
   dplyr::summarise(sentiment = unique(sentiment),
@@ -215,28 +215,6 @@ emotionGraph <- function(subjects, emotions_by_subject = FALSE) {
   }
 }
 
-
-# Check words that have contributed to the emotionality of scores. 
-# In other words, we investigate, which words are more important for the emotion scores within each subject. 
-# For the sake of interpretability, we will remove several core emotion categories and also the polarity.
-topWordsByEmotion <- function(subjects_annotation){
-  subjects_annotation %>%
-  dplyr::filter(!is.na(sentiment),
-                sentiment != "anticipation",
-                sentiment != "surprise",
-                sentiment != "disgust",
-                sentiment != "negative",
-                sentiment != "sadness",
-                sentiment != "positive") %>%
-  dplyr::mutate(sentiment = factor(sentiment, levels = c("anger", "fear",  "trust", "joy"))) %>%
-  dplyr::group_by(Subject) %>%
-  dplyr::count(Word, sentiment, sort = TRUE) %>%
-  dplyr::group_by(Subject, sentiment) %>%
-  dplyr::top_n(4) %>%
-  dplyr::mutate(score = n/sum(n))
-}
-
-
 wordCloudGraph <- function(text, lexicon = c("afinn", "bing", "loughran", "nrc"), maxWords = 50) {
   lex <- match.arg(lexicon)
   
@@ -265,12 +243,34 @@ polarityGraph <- function(subjects) {
   geom_text(aes(y = polarity-0.1, label = round(polarity, 2)), 
             color = "white", size = 4) + 
   theme_bw() +
-  labs(y = "Polarity\n(ration of positive to negative emitives)",
-       x = "") +
+  labs(y = "Polarity\n(ration of positive to negative emitives)", x = "") +
   coord_cartesian(y= c(0,2)) +
   scale_y_continuous(breaks = seq(0,2,1),
                      labels = c("more negative", "neutral", "more positive")) +
   theme(legend.position = "none")
+}
+
+
+# An alternative approach to monitoring shifts in polarity across time involves 
+# computing rolling or moving averages. It is important to recognize, though, that while 
+# rolling averages are not the most effective means for monitoring temporal changes, 
+# they serve as a technique for smoothing out erratic time-series data. Nevertheless, 
+# they can be employed to enhance the examination of alterations identified through binning
+#
+# subjects_annotation - the subject annotation can be obtained by calling the combineSubjects() function
+#
+polarityChangesOverTime <- function(subjects_annotation) {
+  subjects_annotation %>%
+  dplyr::filter(is.na(sentiment) | sentiment == "negative" | sentiment == "positive") %>%
+  dplyr::group_by(Subject) %>%
+  dplyr::mutate(sentiment = as.character(sentiment),
+                sentiment = case_when(is.na(sentiment) ~ "0", TRUE ~ sentiment),
+                sentiment = case_when(sentiment == "0" ~ 0, 
+                                      sentiment == "positive" ~ 1,
+                                      TRUE ~ -1),
+                id = 1:n()) %>%
+  dplyr::reframe(id = id, rmean=zoo::rollapply(sentiment, 100, mean, align='right', fill=NA)) %>%
+  na.omit()
 }
   
 
