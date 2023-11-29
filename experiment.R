@@ -86,11 +86,7 @@ conclusion_bing %>%
 
 install.packages("wordcloud") 
 library(wordcloud)
-#> Loading required package: RColorBrewer
-reviews_tidy %>%
-  anti_join(data.frame(word = c("oneplus")), by = c("Word" = "word")) %>%
-  count(Word) %>%
-  with(wordcloud(Word, n, max.words = 50))
+
 
 
 library(reshape2)

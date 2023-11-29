@@ -219,7 +219,7 @@ emotionGraph <- function(subjects, emotions_by_subject = FALSE) {
 # Check words that have contributed to the emotionality of scores. 
 # In other words, we investigate, which words are more important for the emotion scores within each subject. 
 # For the sake of interpretability, we will remove several core emotion categories and also the polarity.
-topWordsForEachEmotion <- function(subjects_annotation){
+topWordsByEmotion <- function(subjects_annotation){
   subjects_annotation %>%
   dplyr::filter(!is.na(sentiment),
                 sentiment != "anticipation",
@@ -248,6 +248,30 @@ wordCloudGraph <- function(text, lexicon = c("afinn", "bing", "loughran", "nrc")
   comparison.cloud(colors = c("red" , "dark green"), max.words = maxWords)
 }
 
+
+polarityGraph <- function(subjects) {
+  subjects %>%
+  dplyr::filter(sentiment == "positive" | sentiment == "negative") %>%
+  dplyr::select(-percentage, -words) %>%
+  dplyr::mutate(sentiment_sum = sum(sentiment_freq),
+                positive = sentiment_sum-sentiment_freq) %>%
+  dplyr::filter(sentiment != "positive") %>%
+  dplyr::rename(negative = sentiment_freq) %>%
+  dplyr::select(Subject, positive, negative) %>%
+  dplyr::group_by(Subject) %>%
+  dplyr::summarise(polarity = positive/negative) %>%
+  ggplot(aes(reorder(Subject, polarity, mean), polarity, fill = Subject)) +    
+  geom_bar(stat = "identity") + 
+  geom_text(aes(y = polarity-0.1, label = round(polarity, 2)), 
+            color = "white", size = 4) + 
+  theme_bw() +
+  labs(y = "Polarity\n(ration of positive to negative emitives)",
+       x = "") +
+  coord_cartesian(y= c(0,2)) +
+  scale_y_continuous(breaks = seq(0,2,1),
+                     labels = c("more negative", "neutral", "more positive")) +
+  theme(legend.position = "none")
+}
   
 
 

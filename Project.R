@@ -14,7 +14,7 @@ install.packages("wordcloud")
 
 
 # activate packages
-#library(dplyr)
+library(dplyr)
 library(stringr)
 library(tidyr)
 library(tibble)
@@ -31,10 +31,13 @@ library(wordcloud)
 #library(flextable)
 
 source("common.R")
+source("common.R")
 
 reviews1 <- read.csv("~/Documents/r-workspace/stat600/rpk-project/datasets/tripadvisor_hotel_reviews.csv", header = TRUE, sep = ",")
 
-reviews2 <- read.csv("~/Documents/r-workspace/stat600/rpk-project/datasets/Hotel_Reviews.csv", header = TRUE, sep = ",")
+data.review2 <-createTestData()
+source("TestData.R")
+
 print(colnames(reviews1))
 unique(reviews2$name)
 
@@ -46,8 +49,9 @@ reviews <- paste(reviews1$Review, collapse = " ")
 
 # Clean the data before processing
 reviews <- cleanTxt(reviews, "Hotel")
+data.review2 <- cleanTxt(data.review2, "Super8")
 
-emotions <- combineEmotion(list(reviews))
+emotions <- combineEmotion(list(reviews, data.review2))
 
 # Draw the frequency graph
 frequencyGraph(emotions, 25)
@@ -57,10 +61,20 @@ head(products, 10)
 
 emotionGraph(products, emotions_by_subject=TRUE)
 
-# Check words that have contributed to the emotionality of scores
-topWordsForEachEmotion(emotions)
 
+source("common.R")
+source("graph.R")
+# Check words that have contributed to the emotionality of scores
+wordsByEmotion <- topWordsByEmotion(emotions)
+head(wordsByEmotion, 50)
+#word cloud
 wordCloudGraph(reviews, "bing")
+wordCloudGraph(data.review2, "bing")
+
+polarityGraph(products)
+
+head(products, 10)
+emotionBySubjectGraph(wordsByEmotion)
 
 
 
