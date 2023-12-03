@@ -2,13 +2,20 @@
 % Please edit documentation in R/TextUtils.R
 \name{trimTextr}
 \alias{trimTextr}
-\title{Title}
+\title{helper function to remove extra right spacing.}
 \usage{
 trimTextr(str)
 }
 \arguments{
-\item{str}{}
+\item{str}{-  text to remove extra spacing}
+}
+\value{
+text with spacing removed on the left
 }
 \description{
-Title
+helper function to remove extra right spacing.
+}
+\examples{
+trimTextr("  This   is  String  ")
+# Output: "  This   is  String"
 }

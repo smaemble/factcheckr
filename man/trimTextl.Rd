@@ -2,13 +2,20 @@
 % Please edit documentation in R/TextUtils.R
 \name{trimTextl}
 \alias{trimTextl}
-\title{Title}
+\title{helper function to remove left spacing in a text, necessary for data cleanup}
 \usage{
 trimTextl(str)
 }
 \arguments{
-\item{str}{}
+\item{str}{- the string text to remove extra spacing}
+}
+\value{
+the text with spacing removed on the left
 }
 \description{
-Title
+helper function to remove left spacing in a text, necessary for data cleanup
+}
+\examples{
+trimTextl("  This   is  String  ")
+# Output: "This   is  String  "
 }

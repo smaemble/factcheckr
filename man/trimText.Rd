@@ -2,7 +2,7 @@
 % Please edit documentation in R/TextUtils.R
 \name{trimText}
 \alias{trimText}
-\title{trimText function to clean text before analysis
+\title{Clean text before analysis.
 This function takes a text as input and returns a new text with all extra spaces removed}
 \usage{
 trimText(str, left = FALSE, right = FALSE)
@@ -10,15 +10,15 @@ trimText(str, left = FALSE, right = FALSE)
 \arguments{
 \item{str}{- text to remove extra spaces left, middle and right}
 
-\item{leftOnly}{- boolean flag if extra spaces should be removed from the left only}
+\item{left}{- boolean flag if extra spaces should be removed from the left only}
 
-\item{rightOnly}{- boolean flag if extra spaces should be removed from the right only}
+\item{right}{- boolean flag if extra spaces should be removed from the right only}
 }
 \value{
 the text already with extra spaces removed
 }
 \description{
-trimText function to clean text before analysis
+Clean text before analysis.
 This function takes a text as input and returns a new text with all extra spaces removed
 }
 \examples{

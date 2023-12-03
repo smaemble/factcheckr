@@ -1,9 +1,9 @@
-#' trimText function to clean text before analysis
+#' Clean text before analysis.
 #' This function takes a text as input and returns a new text with all extra spaces removed
 #'
 #' @param str - text to remove extra spaces left, middle and right
-#' @param leftOnly - boolean flag if extra spaces should be removed from the left only
-#' @param rightOnly - boolean flag if extra spaces should be removed from the right only
+#' @param left - boolean flag if extra spaces should be removed from the left only
+#' @param right - boolean flag if extra spaces should be removed from the right only
 #'
 #' @return the text already with extra spaces removed
 #' @export
@@ -18,6 +18,14 @@
 #' trimText("  This   is  String  ", right=TRUE)
 #' # Output: "  This   is  String"
 trimText <- function(str, left=FALSE, right=FALSE) {
+
+  if(identical(str, NULL)){
+    stop("str param cannot be NULL")
+  }
+
+  if (!is.logical(left) | !is.logical(right)) {
+    stop("left and right variables must be boolean")
+  }
 
   if(left & !right ) {
     str <- trimTextl(str)
@@ -52,17 +60,22 @@ trimText <- function(str, left=FALSE, right=FALSE) {
   return(str)
 }
 
-# helper function to remove left spacing
-# str - text to remove extra space
-#' Title
+
+#' helper function to remove left spacing in a text, necessary for data cleanup
 #'
-#' @param str
+#' @param str - the string text to remove extra spacing
 #'
-#' @return
+#' @return the text with spacing removed on the left
 #' @export
 #'
 #' @examples
+#' trimTextl("  This   is  String  ")
+#' # Output: "This   is  String  "
 trimTextl <- function(str) {
+
+  if(identical(str, NULL)){
+    stop("str param cannot be NULL")
+  }
 
   # Replace multiple spaces at the beginning with a single space
   str <- gsub("^\\s+", " ", str)
@@ -73,17 +86,22 @@ trimTextl <- function(str) {
   return(str)
 }
 
-# helper function to remove extra right spacing.
-# str - text to remove extra space
-#' Title
+
+#' helper function to remove extra right spacing.
 #'
-#' @param str
+#' @param str  -  text to remove extra spacing
 #'
-#' @return
+#' @return  text with spacing removed on the left
 #' @export
 #'
 #' @examples
+#' trimTextr("  This   is  String  ")
+#' # Output: "  This   is  String"
 trimTextr <- function(str) {
+
+  if(identical(str, NULL)){
+    stop("str param cannot be NULL")
+  }
 
   # Replace multiple spaces at the end with a single space
   str <- gsub("\\s+$", " ", str)
@@ -94,44 +112,58 @@ trimTextr <- function(str) {
   return(str)
 }
 
-# Turn a text into tokens.
-# text  - text to be tokenized
-# words - an arrays of tokens to return
-#' Title
+
+#' Turn a text into words tokens
 #'
-#' @param text
+#' @param text  -text to be tokenized
 #'
-#' @return
+#' @return  an arrays of words tokens
 #' @export
 #'
 #' @examples
-tokws <- function(text) {
+#' Output <- strtokwords("This is a very long character vector.")
+#' # Output[1]: "This"
+#' # Output[2]: "is"
+#' # Output[3]: "a"
+#' # Output[4]: "very"
+#' # Output[5]: "long"
+#' # Output[6]: "character"
+#' # Output[7]: "vector"
+strtokwords <- function(text) {
 
+  if(identical(text, NULL)){
+    stop("text param cannot be NULL")
+  }
   # Remove non-alphanumeric characters
   text <- gsub("[^[:alnum:]]", " ", text)
+
   # Convert text to lowercase
   text <- tolower(text)
+
   # Split text into words
   words <- strsplit(text, " ")
+
   # Remove empty strings
   words <- sapply(words, function(x) x[!x == ""])
+
   # Return the tokenized text
   return(words)
 }
 
 
-# Extract sentences from text.
-# text  - text to be tokenized into sentences
-# an arrays of tokens sentences to return
-#' Title
+#' Extracts sentences from text if there is any.
 #'
-#' @param text
+#' @param text - text to be tokenized into sentences
 #'
-#' @return
+#' @return an arrays of tokens sentences to return
 #' @export
 #'
 #' @examples
-tokss <- function(text) {
+#' Output <- strtokss("This is a very long character vector. Why is it so long? I think lng. is short for long")
+#' # Output[1]: "This is a very long character vector"
+#' # Output[2]: "Why is it so long?"
+#' # Output[3]: "I think lng. is short for long"
+strtokss <- function(text) {
 
   # Convert the text to a character vector
   text <- as.character(text)

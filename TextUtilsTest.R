@@ -1,18 +1,18 @@
 
 source("R/TextUtils.R")
 
-tokens <- tokws("This is an example of how to tokenize text in R.")
+#tokens <- strtokws("This is an example of how to tokenize text in R.")
 
 testthat::test_that("The text has excatly 11 words", {
-  testthat::expect_equal(length(tokens), 11)
+  testthat::expect_length(strtokwords("This is an example of how to tokenize text in R."), 11)
 })
 
 testthat::test_that("The space must be removed so the text has excatly 1", {
-  testthat::expect_equal(length(tokws("")), 1)
+  testthat::expect_equal(length(strtokwords("")), 1)
 })
 
 text <- "This is a very long character vector. Why is it so long? I think lng. is short for long. I want to split this vector into senteces by using e.g. strssplit. Can someone help me? That would be nice?"
-out <- tokss(text)
+out <- strtokss(text)
 testthat::test_that("There must be 6 sentences", {
   testthat::expect_equal(length(out), 6)
   testthat::expect_equal(out[1], "This is a very long character vector.")
@@ -49,6 +49,15 @@ testthat::test_that("should remove space right", {
 testthat::test_that("should remove space right and left", {
   testthat::expect_equal(trimText(text, left=TRUE, right=TRUE), "This   is  String")
 })
+
+testthat::test_that("trimText should expect error", {
+  testthat::expect_error(trimText(text, left=NULL), "left and right variables must be boolean")
+})
+
+testthat::test_that("trimText should expect error", {
+  testthat::expect_error(trimText(NULL))
+})
+
 
 
 
