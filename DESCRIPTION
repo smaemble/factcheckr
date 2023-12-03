@@ -25,7 +25,8 @@ Imports:
   textdata,
   sentimentr,
   zoo,
-  wordcloud
+  wordcloud,
+  testthat
 Suggests:
   testthat,
   knitr,

@@ -33,7 +33,7 @@ trimText <- function(str, left=FALSE, right=FALSE) {
     return (str)
   }
   else {
-    .trimTextlrm
+    str <- .trimTextlrm(str)
   }
 
   return(str)
@@ -105,7 +105,7 @@ trimTextr <- function(str) {
 #' @export
 #'
 #' @examples
-tokw <- function(text) {
+tokws <- function(text) {
 
   # Remove non-alphanumeric characters
   text <- gsub("[^[:alnum:]]", " ", text)
@@ -131,7 +131,7 @@ tokw <- function(text) {
 #' @export
 #'
 #' @examples
-toks <- function(text) {
+tokss <- function(text) {
 
   # Convert the text to a character vector
   text <- as.character(text)
