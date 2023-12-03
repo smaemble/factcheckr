@@ -67,10 +67,10 @@ source("graph.R")
 wordsByEmotion <- topWordsByEmotion(subjectsAnnotations)
 head(wordsByEmotion, 50)
 #word cloud
-wordCloudGraph(reviews, "bing")
-wordCloudGraph(data.review2, "bing")
+wcgplot(reviews, "bing")
+wcgplot(data.review2, "bing")
 
-polarityGraph(subjects)
+pcgplot(subjects)
 
 head(subjects, 10)
 emotionBySubjectGraph(wordsByEmotion)

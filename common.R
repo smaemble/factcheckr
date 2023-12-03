@@ -215,40 +215,6 @@ emotionGraph <- function(subjects, emotions_by_subject = FALSE) {
   }
 }
 
-wordCloudGraph <- function(text, lexicon = c("afinn", "bing", "loughran", "nrc"), maxWords = 50) {
-  lex <- match.arg(lexicon)
-  
-  text %>%
-  inner_join(genSentiment(lex), by = c("Word" = "word")) %>%
-  count(Word, sentiment, sort = TRUE) %>%
-  reshape2::acast(Word ~ sentiment, value.var = "n", fill = 0) %>%
-  # colors = c("#202121", "#797C80")  
-  comparison.cloud(colors = c("red" , "dark green"), max.words = maxWords)
-}
-
-
-polarityGraph <- function(subjects) {
-  subjects %>%
-  dplyr::filter(sentiment == "positive" | sentiment == "negative") %>%
-  dplyr::select(-percentage, -words) %>%
-  dplyr::mutate(sentiment_sum = sum(sentiment_freq),
-                positive = sentiment_sum-sentiment_freq) %>%
-  dplyr::filter(sentiment != "positive") %>%
-  dplyr::rename(negative = sentiment_freq) %>%
-  dplyr::select(Subject, positive, negative) %>%
-  dplyr::group_by(Subject) %>%
-  dplyr::summarise(polarity = positive/negative) %>%
-  ggplot(aes(reorder(Subject, polarity, mean), polarity, fill = Subject)) +    
-  geom_bar(stat = "identity") + 
-  geom_text(aes(y = polarity-0.1, label = round(polarity, 2)), 
-            color = "white", size = 4) + 
-  theme_bw() +
-  labs(y = "Polarity\n(ration of positive to negative emitives)", x = "") +
-  coord_cartesian(y= c(0,2)) +
-  scale_y_continuous(breaks = seq(0,2,1),
-                     labels = c("more negative", "neutral", "more positive")) +
-  theme(legend.position = "none")
-}
 
 
 # An alternative approach to monitoring shifts in polarity across time involves 
