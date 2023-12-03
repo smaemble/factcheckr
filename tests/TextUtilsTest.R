@@ -1,6 +1,7 @@
 
-# Source functions for text mining
-source("common.R")
+#install.packages("testthat")
+#library(testthat)
+
 
 tokens <- tokenizeWords("This is an example of how to tokenize text in R.")
 
@@ -26,29 +27,29 @@ testthat::test_that("There must be 6 sentences", {
 
 # ============= removing empty spaces function text ====================
 text <- "  This   is  String  "
-#identical(padTextl(text), "This   is  String  ")
+#identical(trimTextl(text), "This   is  String  ")
 
 testthat::test_that("remove left space", {
-  testthat::expect_equal(padTextl(text), "This   is  String  ")
+  testthat::expect_equal(trimTextl(text), "This   is  String  ")
 })
 testthat::test_that("remove right space", {
-  testthat::expect_equal(padTextr(text), "  This   is  String")
+  testthat::expect_equal(trimTextr(text), "  This   is  String")
 })
 
 testthat::test_that("should remove space left, right, midle", {
-  testthat::expect_equal(padText(text), "This is String")
+  testthat::expect_equal(trimText(text), "This is String")
 })
 
 testthat::test_that("should remove space left", {
-  testthat::expect_equal(padText(text, leftOnly=TRUE), "This   is  String  ")
+  testthat::expect_equal(trimText(text, leftOnly=TRUE), "This   is  String  ")
 })
 
 testthat::test_that("should remove space right", {
-  testthat::expect_equal(padText(text, rightOnly=TRUE), "  This   is  String")
+  testthat::expect_equal(trimText(text, rightOnly=TRUE), "  This   is  String")
 })
 
 testthat::test_that("should remove space right and left", {
-  testthat::expect_equal(padText(text, leftOnly=TRUE, rightOnly=TRUE), "This   is  String")
+  testthat::expect_equal(trimText(text, leftOnly=TRUE, rightOnly=TRUE), "This   is  String")
 })
 
 

@@ -1,11 +1,32 @@
 Package: factcheckr
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Sentiment Analysis Package
 Version: 0.1.0
-Author: Armel Oum Maemble (STAT600)
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Armel Oum Maemble
+Maintainer: Armel Oum Maemble <smaemble@tamu.edu>
+Description: factcheckr provides functions for analyzing text data including but 
+    not limited to functions for text cleanup, text tokenization, top terms, word frequencies, 
+    and Sentiment Analysis(SA) just to name a few. SA serves as a comprehensive term encompassing 
+    methodologies that extract emotional or opinion-related insights from natural language. 
+    SA has proven effective in scrutinizing language data across various fields, including psychology,
+    economics, education, as well as political and social sciences. Typically, SA is utilized to 
+    ascertain the collective perspective of a broader group of speakers regarding a specific 
+    phenomenon, be it political figures, parties, product lines, or situations.
+License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+RoxygenNote: 7.2.3
+Imports:
+  dplyr,
+  tibble,
+  tidyr,
+  tidytext,
+  tidyverse,
+  textdata,
+  sentimentr,
+  zoo,
+  wordcloud
+Suggests:
+  testthat,
+  knitr,
+  rmarkdown
