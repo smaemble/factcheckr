@@ -1,2 +1,11 @@
 exportPattern("^[[:alpha:]]+")
-
+import("dplyr")
+import("tidyr")
+import("tibble")
+import("tidytext")
+import("tidyverse")
+import("textdata")
+import("sentimentr")
+import("zoo")
+import("wordcloud")
+import("stringr")

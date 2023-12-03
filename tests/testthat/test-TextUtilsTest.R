@@ -60,3 +60,29 @@ testthat::test_that("trimText should expect error", {
   testthat::expect_error(trimText(NULL))
 })
 
+
+# ============= neatlystart() ====================
+out <- neatlystart("Texas A&M has the best     Statistical Learning Program in the nation.  ", "University")
+
+testthat::test_that("stop words and extra spaces must be removed and non english words", {
+  testthat::expect_equal(length(out$Word), 5)
+  testthat::expect_equal(out$Word[1], "texas")
+  testthat::expect_equal(out$Word[2], "statistical")
+  testthat::expect_equal(out$Word[3], "learning")
+  testthat::expect_equal(out$Word[4], "program")
+  testthat::expect_equal(out$Word[5], "nation")
+})
+
+
+# ============= removeStopwords() ====================
+out <- removeStopwords(out, data.frame(word = c("texas")))
+
+testthat::test_that("words texas must be removed", {
+  testthat::expect_equal(length(out$Word), 4)
+  testthat::expect_equal(out$Word[1], "statistical")
+  testthat::expect_equal(out$Word[2], "learning")
+  testthat::expect_equal(out$Word[3], "program")
+  testthat::expect_equal(out$Word[4], "nation")
+  testthat::expect_error(removeStopwords(words_dictionary=NULL))
+  testthat::expect_error(removeStopwords(words_dictionary, stopwords=NULL))
+})

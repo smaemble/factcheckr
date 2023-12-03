@@ -178,3 +178,123 @@ strtokss <- function(text) {
   return(unlist(sentences))
 }
 
+
+tokenizeCorpus <- function(corpus, what=c("word", "sentence"), remove_numbers = FALSE, remove_punct = FALSE,
+                           remove_symbols = FALSE, remove_separators = TRUE, remove_hyphens = FALSE, remove_url = FALSE) {
+  if(is.null(corpus)){
+    stop("corpus cannot be NULL")
+  }
+
+  if(!is.null(what)){
+    token_type <- match.arg(what)
+
+    if (token_type == "word") {
+      corpus <- tokenizeWords(corpus)
+    }
+    else if (token_type == "sentence") {
+      corpus <- tokenizeSentences(corpus)
+    }
+  }
+
+  # Remove numbers using gsub
+  if(remove_numbers) {
+    corpus <- gsub("\\d", "", corpus)
+  }
+
+  return(corpus)
+}
+
+
+#' clean and convert text to lowercase, then to words, remove any extra spaces
+#' then add new column pass as parameter in the subject, remove all stops words and finally remove any
+#' non English words.
+#'
+#' @param corpus  - Text corpus under fact checking to clean before starting the analysis
+#' @param subject - subject domain to apply this study. we recommend using single word
+#'
+#' @return  An Array of words in this corpus.
+#' @export
+#'
+#' @examples
+#' Output <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+#' # A tibble: 5 × 2
+#' # Word          Subject
+#' # <chr>         <chr>
+#' # 1 texas       University
+#' # 2 statistical University
+#' # 3 learning    University
+#' # 4 program     University
+#' # 5 nation      University
+#' #
+#' # Clearly has, the, best, in are stopwords and have been removed
+neatlystart <- function(corpus="", subject="domain") {
+
+  if (identical(corpus, NULL)){
+    stop ("corpus cannot be null, specify the corpus under fact checking")
+  }
+
+  if (identical(subject, NULL)){
+    stop ("subject cannot be null, specify the subject under fact checking")
+  }
+  corpus <- corpus %>%
+  base::iconv(to = "UTF-8") %>%
+  base::tolower() %>%
+  base::paste0(collapse = " ") %>%
+
+  #remove any extrace spaces in the corpus (stringr::str_squish())%>%
+  trimText %>%
+
+  # split the corpus to create words by calling our strtokwords function
+  strtokwords %>%
+
+  # Convert object to one dimensional vector
+  base::unlist() %>%
+  tibble::tibble() %>%
+  dplyr::select(Word = 1, everything()) %>%
+
+  # Add a new column Subject
+  dplyr::mutate(Subject = subject) %>%
+
+  # Remove all stop words
+  dplyr::anti_join(tidytext::stop_words, by = c("Word" = "word")) %>%
+
+  # Remove any non words
+  dplyr::mutate(Word = stringr::str_remove_all(Word, "\\W")) %>%
+
+  # filtered empty space
+  dplyr::filter(Word != "")
+}
+
+#' Remove additional stopwords under fact checking
+#'
+#' @param words_dictionary -  dictionary of words array.
+#' @param stopwords - The data frame of words to remove.
+#'
+#' @return dictionary of words with no stop words.
+#' @export
+#'
+#' @examples
+#' words <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+#' Output <- removeStopwords(words, data.frame(word = c("texas")))
+#' # A tibble: 5 × 2
+#' # Word          Subject
+#' # <chr>         <chr>
+#' # 1 statistical University
+#' # 2 learning    University
+#' # 3 program     University
+#' # 4 nation      University
+#' #
+#' # Texas has been removed from the texas as it could be words that means nothing in the study
+removeStopwords <- function(words_dictionary, stopwords = data.frame(word = c())) {
+  if(identical(words_dictionary, NULL)){
+    stop("words_dictionary cannot be NULL")
+  }
+
+  if(!(is.data.frame(stopwords) && nrow(stopwords) > 0 && ncol(stopwords) > 0)) {
+    stop("stopwords param must be a data frame of words to be removed")
+  }
+
+  # Remove addit stop words
+  words_dictionary %>%
+  dplyr::anti_join(stopwords, by = c("Word" = "word"))
+}
