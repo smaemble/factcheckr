@@ -1,3 +1,67 @@
+# This function will provide the most frequently use words in a text
+# x - text to parse
+# top - indicated the limit to return after the operation is complete
+# show_graph - is TRUE a Graph will be created as sidde effect
+frequencyGraph <- function(x, top = 10) {
+
+  x %>%
+
+    # We need a word count
+    count(Word, sort = TRUE) %>%
+
+    # We want to create a factor from the word column with the levels showing the most frequent words as top level
+    # This is just for aestethic reasons, however, it helps make the point
+    mutate(Word = factor(Word, levels = rev(unique(Word)))) %>%
+    # We use the "top" variable defined in the function so we can decide how many words we want to use
+    top_n(top) %>%
+
+    # Could be useful if grouping variable is necessary
+    ungroup() %>%
+
+    # The graph itself
+    ggplot(mapping = aes(x = Word, y = n)) +
+    geom_col(show.legend = FALSE) +
+    coord_flip() +
+    labs(x = NULL)
+
+}
+
+
+
+# visualize the results and show the scores for each core emotion by subjects(Products)
+# subjects - The subjects to draw emotions from.
+# display the emotions by subject and re-level sentiment so that the different core emotions are
+#              ordered from more negative (red) to more positive (blue)
+emotionGraph <- function(subjects, emotions_by_subject = FALSE) {
+  if(emotions_by_subject) {
+    subjects %>%
+      dplyr::filter(sentiment != "positive",
+                    sentiment != "negative") %>%
+      dplyr::mutate(sentiment = factor(sentiment,
+                                       levels = c("anger", "fear", "disgust", "sadness",
+                                                  "surprise", "anticipation", "trust", "joy"))) %>%
+      ggplot(aes(Subject, percentage, fill = sentiment)) +
+      geom_bar(stat="identity", position=position_dodge()) +
+      scale_fill_brewer(palette = "RdBu") +
+      theme_bw() +
+      theme(legend.position = "right") +
+      coord_flip()
+
+  } else {
+
+    dplyr::filter(sentiment != "positive",
+                  sentiment != "negative") %>%
+      ggplot(aes(sentiment, percentage, fill = Subject)) +
+      geom_bar(stat="identity",
+               position=position_dodge()) +
+      scale_fill_manual(name = "", values=c("gray70", "orange", "red", "grey30")) +
+      theme_bw() +
+      theme(legend.position = "top")
+  }
+}
+
+
+
 # Helper function to visualize the top n words for the core emotion categories.
 # topWordsByEmotion - top words by emotion
 # side effect, this function create graph

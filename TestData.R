@@ -1,4 +1,6 @@
 
+install.packages("dplyr")
+library(dplyr)
 
 createTestData <- function(){
   reviews2 <- read.csv("~/Documents/r-workspace/stat600/factcheckr/data/Hotel_Reviews.csv", header = TRUE, sep = ",")
@@ -6,11 +8,11 @@ createTestData <- function(){
   head(reviews2, 10)
   unique(reviews2$name)
 
-  review <- reviews2 %>%
+  reviews2 <- reviews2 %>%
     dplyr::filter(name == "Red Roof Inn Cedar Rapids") %>%
     dplyr::select(reviews.text)
 
-  reviews <- paste(review, collapse = " ")
+  reviews2 <- paste(reviews2, collapse = " ")
 
-   return (reviews)
+   return (reviews2)
 }

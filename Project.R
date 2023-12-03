@@ -29,7 +29,6 @@
 
 #library(flextable)
 
-#source("R/TextUtils.R")
 source("TestData.R")
 source("Graph.R")
 
@@ -49,14 +48,24 @@ reviews <- paste(reviews1$Review, collapse = " ")
 
 # Clean the data before processing, cleanCBAS
 reviews <- factcheckr::neatlystart(reviews, "Hotel")
-output <- factcheckr::neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+output <- factcheckr::neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
+output2 <- factcheckr::neatlystart("Mit is very expensive, student loans sucks", "MIT")
 
-out <- factcheckr::removeStopwords(output, data.frame(word = c("texas")))
-out
+#out <- factcheckr::removeStopwords(output, data.frame(word = c("texas")))
+#out
 
-data.review2 <- cleanTxt(data.review2, "Super8")
+reviews2 <- factcheckr::neatlystart(reviews2, "Super8")
 
-subjectsAnnotations <- combineSubjects(list(reviews, data.review2))
+
+
+subjectsAnnotations <- factcheckr::combinesubjects(list(reviews, reviews2))
+
+
+
+output
+output2
+schoolAnnotations <- factcheckr::combinesubjects(list(output, output2), lex="bing")
+schoolAnnotations
 
 # Draw the frequency graph
 frequencyGraph(subjectsAnnotations, 25)

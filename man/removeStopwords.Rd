@@ -2,7 +2,7 @@
 % Please edit documentation in R/TextUtils.R
 \name{removeStopwords}
 \alias{removeStopwords}
-\title{Remove additional stopwords under}
+\title{Remove additional stopwords under fact checking}
 \usage{
 removeStopwords(words_dictionary, stopwords = data.frame(word = c()))
 }
@@ -15,7 +15,7 @@ removeStopwords(words_dictionary, stopwords = data.frame(word = c()))
 dictionary of words with no stop words.
 }
 \description{
-Remove additional stopwords under
+Remove additional stopwords under fact checking
 }
 \examples{
 words <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
