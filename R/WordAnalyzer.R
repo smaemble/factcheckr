@@ -48,8 +48,6 @@ combinesubjects <- function(list_of_dfs, lex = "nrc"){
 }
 
 
-
-
 .loadlexicon <- function (lexicon = c("afinn", "bing", "loughran", "nrc"))  {
 
      data(list = "sentiments", package = "tidytext", envir = environment())
@@ -81,68 +79,128 @@ combinesubjects <- function(list_of_dfs, lex = "nrc"){
 }
 
 
-#
-#
-# # emotions - the annotation of different emotion in the subject
-# # Summarize the results of the Sentiment Analysis and calculate the percentages of the
-# # prevalence of emotions across different subjects(Products) under analysis.
-# emotionPrevalenceBySubjects <- function(subjectsAnnotations) {
-#   subjectsAnnotations %>%
-#   dplyr::group_by(Subject) %>%
-#   dplyr::group_by(Subject, sentiment) %>%
-#   dplyr::summarise(sentiment = unique(sentiment),
-#                    sentiment_freq = n(),
-#                    words = unique(words)) %>%
-#   # filter out any sentiment that has NA
-#   dplyr::filter(is.na(sentiment) == F) %>%
-#
-#   # create a new column name percentage that has each emotion frequency
-#   dplyr::mutate(percentage = round(sentiment_freq/words*100, 1))
-# }
-#
-#
-# # Check words that have contributed to the emotionality of scores.
-# # In other words, we investigate, which words are more important for the emotion scores within each subject.
-# # For the sake of interpretability, we will remove several core emotion categories and also the polarity.
-# topWordsByEmotion <- function(subjects_annotation, top_words = 4){
-#   subjects_annotation %>%
-#     dplyr::filter(!is.na(sentiment),
-#                   sentiment != "anticipation",
-#                   sentiment != "surprise",
-#                   sentiment != "disgust",
-#                   sentiment != "negative",
-#                   sentiment != "sadness",
-#                   sentiment != "positive") %>%
-#     dplyr::mutate(sentiment = factor(sentiment, levels = c("anger", "fear",  "trust", "joy"))) %>%
-#     dplyr::group_by(Subject) %>%
-#     dplyr::count(Word, sentiment, sort = TRUE) %>%
-#     dplyr::group_by(Subject, sentiment) %>%
-#     dplyr::top_n(top_words) %>%
-#     dplyr::mutate(score = n/sum(n))
-# }
-#
-#
-# # An alternative approach to monitoring shifts in polarity across time involves
-# # computing rolling or moving averages. It is important to recognize, though, that while
-# # rolling averages are not the most effective means for monitoring temporal changes,
-# # they serve as a technique for smoothing out erratic time-series data. Nevertheless,
-# # they can be employed to enhance the examination of alterations identified through binning
-# #
-# # subjects_annotation - the subject annotation can be obtained by calling the combineSubjects() function
-# #
-# polarityChangesOverTime <- function(subjects_annotation) {
-#   subjects_annotation %>%
-#   dplyr::filter(is.na(sentiment) | sentiment == "negative" | sentiment == "positive") %>%
-#   dplyr::group_by(Subject) %>%
-#   dplyr::mutate(sentiment = as.character(sentiment),
-#                 sentiment = case_when(is.na(sentiment) ~ "0", TRUE ~ sentiment),
-#                 sentiment = case_when(sentiment == "0" ~ 0,
-#                                       sentiment == "positive" ~ 1,
-#                                       TRUE ~ -1),
-#                 id = 1:n()) %>%
-#   dplyr::reframe(id = id, rmean=zoo::rollapply(sentiment, 100, mean, align='right', fill=NA)) %>%
-#   na.omit()
-# }
+
+#' Summarizes the results of the Sentiment Analysis and calculate the percentages of the
+#' prevalence of emotions across different subjects(Products) under analysis.
+#'
+#' @param subjectsAnnotations - the annotation of different emotion by subject in this corpus
+#'
+#' @return emotion emotion frequency
+#' @export
+#'
+#' @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}
+#' @examples
+#'
+#'  out <- emotionFrequency(subjectsAnnotations)
+#'
+#' # Subject  sentiment sentiment_freq words percentage
+#' # <fct>    <fct>              <int> <int>      <dbl>
+#' #  Texas AM positive             1     5         20
+#' #  Texas AM trust                2     5         40
+emotionFrequency <- function(subjectsAnnotations) {
+
+  if(identical(subjectsAnnotations, NULL)) {
+    stop ("Annotation cannot be null")
+  }
+  subjectsAnnotations %>%
+  dplyr::group_by(Subject) %>%
+  dplyr::group_by(Subject, sentiment) %>%
+  dplyr::summarise(sentiment = unique(sentiment),
+                   sentiment_freq = n(),
+                   words = unique(words)) %>%
+  # filter out any sentiment that has NA
+  dplyr::filter(is.na(sentiment) == F) %>%
+
+  # create a new column name percentage that has each emotion frequency
+  dplyr::mutate(percentage = round(sentiment_freq/words*100, 1))
+}
+
+
+#' Check words that have contributed to the emotionality of scores. we investigate, which words are more
+#' important for the emotion scores within each subject. For the sake of interpretability,
+#' we will remove several core emotion categories and also the polarity.
+#'
+#' @param subjects_annotation - the subject annotation
+#' @param top_words - the number of top words to return if any
+#'
+#' @return topwords associated with the lexicon
+#'
+#' @export
+#' @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}
+#'
+#' @examples
+#'
+#'
+#'  out <- topterms (subjects_annotation)
+#'
+#' # Groups:   Subject, sentiment [1]
+#' # Subject  Word        sentiment     n score
+#' # <fct>    <chr>       <fct>     <int> <dbl>
+#' # Texas AM nation      trust         1   0.5
+#' # Texas AM statistical trust         1   0.5
+topterms <- function(subjects_annotation, min_top_words = 4){
+
+  if(identical(subjects_annotation, NULL)){
+    stop("subjects_annotation cannot be NULL")
+  }
+  if(!is.numeric(min_top_words) || (min_top_words < 1)){
+    stop("min_top_words must be a positive numeric")
+  }
+  subjects_annotation %>%
+    dplyr::filter(!is.na(sentiment),
+                  sentiment != "anticipation",
+                  sentiment != "surprise",
+                  sentiment != "disgust",
+                  sentiment != "negative",
+                  sentiment != "sadness",
+                  sentiment != "positive") %>%
+    dplyr::mutate(sentiment = factor(sentiment, levels = c("anger", "fear",  "trust", "joy"))) %>%
+    dplyr::group_by(Subject) %>%
+    dplyr::count(Word, sentiment, sort = TRUE) %>%
+    dplyr::group_by(Subject, sentiment) %>%
+    dplyr::top_n(min_top_words) %>%
+    dplyr::mutate(score = n/sum(n))
+}
+
+
+#' An alternative approach to monitoring shifts in polarity across time involves
+#' computing rolling or moving averages. It is important to recognize, that while
+#' rolling averages are not the most effective means for monitoring temporal changes,
+#' they serve as a technique for smoothing out erratic time-series data.
+#'
+#'
+#' @param subjects_annotation - subject annotation to find polarity changes over time
+#'
+#' @return the polarity changes over time.
+#' @export
+#'
+#' @seealso @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
+#'
+#' @examples
+#'
+#'  out <- polaritychanges (subjects_annotation)
+#'
+#' # Groups:   Subject, sentiment [1]
+#' # Subject, id ,  rmean
+#' # <fct>   <int>  <lgl>
+polaritychanges <- function(subjects_annotation) {
+
+  # if(identical(subjects_annotation, NULL)){
+  #   stop("subjects_annotation cannot be NULL")
+  # }
+
+  subjects_annotation %>%
+  dplyr::filter(is.na(sentiment) | sentiment == "negative" | sentiment == "positive") %>%
+  dplyr::group_by(Subject) %>%
+  dplyr::mutate(sentiment = as.character(sentiment),
+                sentiment = case_when(is.na(sentiment) ~ "0", TRUE ~ sentiment),
+                sentiment = case_when(sentiment == "0" ~ 0,
+                                      sentiment == "positive" ~ 1,
+                                      TRUE ~ -1),
+                id = 1:n()) %>%
+  dplyr::reframe(id = id, rmean=zoo::rollapply(sentiment, 100, mean, align='right', fill=NA)) %>%
+  na.omit()
+}
 
 
 

@@ -65,13 +65,17 @@ subjectsAnnotations <- factcheckr::combinesubjects(list(reviews, reviews2))
 output
 output2
 schoolAnnotations <- factcheckr::combinesubjects(list(output, output2), lex="bing")
+schoolAnnotations <- factcheckr::combinesubjects(list(output, output2))
 schoolAnnotations
 
 # Draw the frequency graph
 frequencyGraph(subjectsAnnotations, 25)
+frequencyGraph(schoolAnnotations, 25)
 
-subjects <- emotionPrevalenceBySubjects(subjectsAnnotations)
-head(subjects, 10)
+subjects <- factcheckr::emotionFrequency(subjectsAnnotations)
+subjects <- factcheckr::emotionFrequency(schoolAnnotations)
+
+head(subjects)
 
 emotionGraph(subjects, emotions_by_subject=TRUE)
 
