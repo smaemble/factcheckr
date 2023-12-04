@@ -11,9 +11,9 @@
 # install.packages("zoo")
 # #install.packages("flextable")
 # install.packages("wordcloud")
-
-
-# # activate packages
+#
+#
+# # # activate packages
 # library(dplyr)
 # library(stringr)
 # library(tidyr)
@@ -30,7 +30,7 @@
 #library(flextable)
 
 source("TestData.R")
-source("Graph.R")
+source("R/Graph.R")
 
 reviews1 <- read.csv("~/Documents/r-workspace/stat600/factcheckr/data/tripadvisor_hotel_reviews.csv", header = TRUE, sep = ",")
 
@@ -71,6 +71,14 @@ schoolAnnotations
 # Draw the frequency graph
 frequencyGraph(subjectsAnnotations, 25)
 frequencyGraph(schoolAnnotations, 25)
+
+
+
+source("R/Graph.R")
+
+ggplot3(schoolAnnotations, top=15, "frequency")
+
+
 
 subjects <- factcheckr::emotionFrequency(subjectsAnnotations)
 subjects <- factcheckr::emotionFrequency(schoolAnnotations)

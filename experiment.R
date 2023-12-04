@@ -1,15 +1,4 @@
-#rm(list=ls())
 
-# install.packages("tidytext")
-# install.packages("tidyverse")
-# library(tidytext)
-# library(tidyverse)
-
-# We will need a URL from where to download the data
-# In this case we will do it from my GitHub repository
-# You can download the data using this link
-
-# I prefer vroom to ingest csv, but you can use readr::read_csv() if you fancy it more
 
 reviews <- read.csv("https://raw.github.com/VladAluas/Text_Analysis/master/Datasets/Text_review.csv", header = TRUE, sep = ",")
 #> Rows: 433
@@ -26,8 +15,6 @@ head(reviews)
 
 # We want to display graphically a word frequency plot
 # We will create a function that will store all the operations we will repeat several times
-
-source("common.R")
 
 # Same dataset as before with an extra code line
 
