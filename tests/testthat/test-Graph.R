@@ -14,3 +14,11 @@ testthat::test_that("top must not be less than 5", {
   testthat::expect_error(ggplot3(nrcResult, top=4, "frequency"))
   testthat::expect_error(ggplot3(nrcResult=NULL))
 })
+
+
+#ggplot3(nrcResult, "emotion")
+#ggplot3(bingResult, "emotion", emotions_by_subject=TRUE)
+
+testthat::test_that("emotion plot", {
+  testthat::expect_error(ggplot3(nrcResult=NULL, "emotion"))
+})

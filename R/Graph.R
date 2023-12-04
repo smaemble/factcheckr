@@ -1,7 +1,9 @@
 
-#' This function will provide the most frequently use words in a text
+#' This function will provide the most frequently use words in a text plot.
+#' Display emotions by subject and re-level sentiment so that the different core emotions are
+#              ordered from more negative (red) to more positive (blue)
 #'
-#' @param text   - text to use to produce the graph
+#' @param text   - text to use to produce the graph, subject to draw emotion from
 #' @param top - indicated the limit to return after the operation is complete
 #' @param emotions_by_subject - Boolean for dictating emotion graph plot
 #' @param graphType - the type of graph to plot
@@ -10,7 +12,10 @@
 #' @export
 #'
 #' @examples
+#'
 #' ggplot3(nrcResult, top=10, "frequency")
+#'
+#'
 ggplot3 <- function(text, top = 10, emotions_by_subject = FALSE,
     graphType = c("frequency", "emotion", "topterm", "movingaverage", "polarity", "wordcloud")) {
 
@@ -18,6 +23,10 @@ ggplot3 <- function(text, top = 10, emotions_by_subject = FALSE,
 
    if(type == "frequency") {
      .frequencyplot(text, top)
+
+   } else if(type == "emotion"){
+     .emotionplot(text, emotions_by_subject)
+
    }
 
 }
@@ -49,45 +58,47 @@ ggplot3 <- function(text, top = 10, emotions_by_subject = FALSE,
 
     # The graph itself
     ggplot2::ggplot(mapping = aes(x = Word, y = n)) +
-    geom_col(show.legend = FALSE) +
+    ggplot2::geom_col(show.legend = FALSE) +
     ggplot2::coord_flip() +
     ggplot2::labs(x = NULL)
 }
 
-#
-#
-# # visualize the results and show the scores for each core emotion by subjects(Products)
-# # subjects - The subjects to draw emotions from.
-# # display the emotions by subject and re-level sentiment so that the different core emotions are
-# #              ordered from more negative (red) to more positive (blue)
-# emotionGraph <- function(subjects, emotions_by_subject = FALSE) {
-#   if(emotions_by_subject) {
-#     subjects %>%
-#       dplyr::filter(sentiment != "positive",
-#                     sentiment != "negative") %>%
-#       dplyr::mutate(sentiment = factor(sentiment,
-#                                        levels = c("anger", "fear", "disgust", "sadness",
-#                                                   "surprise", "anticipation", "trust", "joy"))) %>%
-#       ggplot(aes(Subject, percentage, fill = sentiment)) +
-#       geom_bar(stat="identity", position=position_dodge()) +
-#       scale_fill_brewer(palette = "RdBu") +
-#       theme_bw() +
-#       theme(legend.position = "right") +
-#       coord_flip()
-#
-#   } else {
-#
-#     dplyr::filter(sentiment != "positive",
-#                   sentiment != "negative") %>%
-#       ggplot(aes(sentiment, percentage, fill = Subject)) +
-#       geom_bar(stat="identity",
-#                position=position_dodge()) +
-#       scale_fill_manual(name = "", values=c("gray70", "orange", "red", "grey30")) +
-#       theme_bw() +
-#       theme(legend.position = "top")
-#   }
-# }
-#
+
+
+# visualize the results and show the scores for each core emotion by subjects(Products)
+# subjects - The subjects to draw emotions from.
+.emotionplot <- function(subjects, emotions_by_subject = FALSE) {
+
+  if(identical(subjects, NULL)){
+    stop("text cannot be null")
+  }
+  if(emotions_by_subject) {
+    subjects %>%
+      dplyr::filter(sentiment != "positive",
+                    sentiment != "negative") %>%
+      dplyr::mutate(sentiment = factor(sentiment,
+                                       levels = c("anger", "fear", "disgust", "sadness",
+                                                  "surprise", "anticipation", "trust", "joy"))) %>%
+      ggplot2::ggplot(aes(Subject, percentage, fill = sentiment)) +
+      geom_bar(stat="identity", position=position_dodge()) +
+      scale_fill_brewer(palette = "RdBu") +
+      theme_bw() +
+      theme(legend.position = "right") +
+      coord_flip()
+
+  } else {
+
+    dplyr::filter(sentiment != "positive",
+                  sentiment != "negative") %>%
+      ggplot2::ggplot(aes(sentiment, percentage, fill = Subject)) +
+      geom_bar(stat="identity",
+               position=position_dodge()) +
+      scale_fill_manual(name = "", values=c("gray70", "orange", "red", "grey30")) +
+      theme_bw() +
+      theme(legend.position = "top")
+  }
+}
+
 #
 #
 # # Helper function to visualize the top n words for the core emotion categories.

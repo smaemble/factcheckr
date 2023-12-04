@@ -2,7 +2,8 @@
 % Please edit documentation in R/Graph.R
 \name{ggplot3}
 \alias{ggplot3}
-\title{This function will provide the most frequently use words in a text}
+\title{This function will provide the most frequently use words in a text plot.
+Display emotions by subject and re-level sentiment so that the different core emotions are}
 \usage{
 ggplot3(
   text,
@@ -13,7 +14,7 @@ ggplot3(
 )
 }
 \arguments{
-\item{text}{- text to use to produce the graph}
+\item{text}{- text to use to produce the graph, subject to draw emotion from}
 
 \item{top}{- indicated the limit to return after the operation is complete}
 
@@ -25,5 +26,12 @@ ggplot3(
 will plot the graph type passed to the function
 }
 \description{
-This function will provide the most frequently use words in a text
+This function will provide the most frequently use words in a text plot.
+Display emotions by subject and re-level sentiment so that the different core emotions are
+}
+\examples{
+
+ggplot3(nrcResult, top=10, "frequency")
+
+
 }
