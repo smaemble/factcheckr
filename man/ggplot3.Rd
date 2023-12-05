@@ -5,22 +5,16 @@
 \title{This function will provide the most frequently use words in a text plot.
 Display emotions by subject and re-level sentiment so that the different core emotions are}
 \usage{
-ggplot3(
-  text,
-  top = 10,
-  emotions_by_subject = FALSE,
-  graphType = c("frequency", "emotion", "topterm", "movingaverage", "polarity",
-    "wordcloud")
-)
+ggplot3(text, graphType = "frequency", top = 10, embs = FALSE)
 }
 \arguments{
 \item{text}{- text to use to produce the graph, subject to draw emotion from}
 
+\item{graphType}{- the type of graph to plot}
+
 \item{top}{- indicated the limit to return after the operation is complete}
 
-\item{emotions_by_subject}{- Boolean for dictating emotion graph plot}
-
-\item{graphType}{- the type of graph to plot}
+\item{embs}{- emotion by subject Boolean graph boolean flag if true}
 }
 \value{
 will plot the graph type passed to the function
@@ -31,7 +25,21 @@ Display emotions by subject and re-level sentiment so that the different core em
 }
 \examples{
 
-ggplot3(nrcResult, top=10, "frequency")
+annotations <- combinesubjects(list(output, output2), lex="nrc")
 
+emotions <- emotionFrequency(annotations)
 
+ggplot3(text=annotations)
+
+ggplot3(text=emotions, graphType="emotion", embs=TRUE)
+
+ggplot3(text=topwords, graphType="topterms")
+
+ggplot3(text=annotations, graphType="movingaverage")
+
+ggplot3(text=emotions, graphType="polarity")
+
+}
+\seealso{
+\code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
 }

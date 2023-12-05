@@ -11,7 +11,7 @@ topterms(subjects_annotation, min_top_words = 4)
 \arguments{
 \item{subjects_annotation}{- the subject annotation}
 
-\item{top_words}{- the number of top words to return if any}
+\item{min_top_words}{- the number of top words to return if any}
 }
 \value{
 topwords associated with the lexicon

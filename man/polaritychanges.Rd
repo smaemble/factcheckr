@@ -30,5 +30,5 @@ they serve as a technique for smoothing out erratic time-series data.
 # <fct>   <int>  <lgl>
 }
 \seealso{
-@seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
+\code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
 }

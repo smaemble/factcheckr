@@ -48,10 +48,11 @@ combinesubjects <- function(list_of_dfs, lex = "nrc"){
 }
 
 
-.loadlexicon <- function (lexicon = c("afinn", "bing", "loughran", "nrc"))  {
-
+.loadlexicon <- function (lexicon ="nrc")  {
+     LEXICON_DEFAULT = c("afinn", "bing", "loughran", "nrc")
      data(list = "sentiments", package = "tidytext", envir = environment())
-     lex <- match.arg(lexicon)
+     lex <- match.arg(lexicon, LEXICON_DEFAULT)
+
      if (lex == "afinn") {
          if (!requireNamespace("textdata", quietly = TRUE)) {
              stop("The textdata package is required to download the AFINN lexicon. \nInstall the textdata package to access this dataset.",
@@ -121,7 +122,7 @@ emotionFrequency <- function(subjectsAnnotations) {
 #' we will remove several core emotion categories and also the polarity.
 #'
 #' @param subjects_annotation - the subject annotation
-#' @param top_words - the number of top words to return if any
+#' @param min_top_words - the number of top words to return if any
 #'
 #' @return topwords associated with the lexicon
 #'
@@ -174,7 +175,7 @@ topterms <- function(subjects_annotation, min_top_words = 4){
 #' @return the polarity changes over time.
 #' @export
 #'
-#' @seealso @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
+#' @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
 #'
 #' @examples
 #'
@@ -185,9 +186,9 @@ topterms <- function(subjects_annotation, min_top_words = 4){
 #' # <fct>   <int>  <lgl>
 polaritychanges <- function(subjects_annotation) {
 
-  # if(identical(subjects_annotation, NULL)){
-  #   stop("subjects_annotation cannot be NULL")
-  # }
+  if(identical(subjects_annotation, NULL)){
+    stop("subjects_annotation cannot be NULL")
+  }
 
   subjects_annotation %>%
   dplyr::filter(is.na(sentiment) | sentiment == "negative" | sentiment == "positive") %>%
