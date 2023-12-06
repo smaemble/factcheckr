@@ -7,9 +7,9 @@ testthat::test_that("The space must be removed so the text has excatly 1", {
   testthat::expect_equal(length(strtokwords("")), 1)
 })
 
-# ============= strtokss function tests ====================
+# ============= strtoksentence function tests ====================
 text <- "This is a very long character vector. Why is it so long? I think lng. is short for long. I want to split this vector into senteces by using e.g. strssplit. Can someone help me? That would be nice?"
-out <- strtokss(text)
+out <- strtoksentence(text)
 testthat::test_that("There must be 6 sentences", {
   testthat::expect_equal(length(out), 6)
   testthat::expect_equal(out[1], "This is a very long character vector.")

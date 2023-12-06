@@ -18,11 +18,12 @@ Combine subject using Word Emotion Association Lexicon
 \examples{
 # list_of_dfs is mainly a list of neatlystart output results.
 # default lex value are c("afinn", "bing", "loughran", "nrc")
-output <- factcheckr::neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
 
-output2 <- factcheckr::neatlystart("Mit is very expensive, student loans sucks", "MIT")
+output <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
 
-annotations <- factcheckr::combinesubjects(list(output, output2), lex="nrc")
+output2 <- neatlystart("Mit is very expensive, student loans sucks", "MIT")
+
+annotations <- combinesubjects(list(output, output2), lex="nrc")
 
 # A tibble: 3 × 4
 # Groups:   Subject [1]

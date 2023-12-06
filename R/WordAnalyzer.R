@@ -8,11 +8,12 @@
 #' @examples
 #' # list_of_dfs is mainly a list of neatlystart output results.
 #' # default lex value are c("afinn", "bing", "loughran", "nrc")
-#' output <- factcheckr::neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
 #'
-#' output2 <- factcheckr::neatlystart("Mit is very expensive, student loans sucks", "MIT")
+#' output <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
 #'
-#' annotations <- factcheckr::combinesubjects(list(output, output2), lex="nrc")
+#' output2 <- neatlystart("Mit is very expensive, student loans sucks", "MIT")
+#'
+#' annotations <- combinesubjects(list(output, output2), lex="nrc")
 #'
 #' # A tibble: 3 × 4
 #' # Groups:   Subject [1]
@@ -41,26 +42,28 @@ combinesubjects <- function(list_of_dfs, lex = "nrc"){
 
   #provide a score for each words
   dplyr::mutate(words = n()) %>%
-  dplyr::inner_join(.loadlexicon(lex), by = c("Word" = "word")) %>%
+  dplyr::inner_join(loadlexicon(lex), by = c("Word" = "word")) %>%
 
   # create the sentiment column using the lexicon words to descripte emotion
   dplyr::mutate(Subject = factor(Subject), sentiment = factor(sentiment))
 }
 
 
-.loadlexicon <- function (lexicon ="nrc")  {
-     LEXICON_DEFAULT = c("afinn", "bing", "loughran", "nrc")
+#' Load the correct lexicon
+#'
+#' @param lexicon -  lexicon type to find
+#'
+#' @return the lexicon
+#' @export
+#'
+#' @examples
+loadlexicon <- function (lexicon ="nrc")  {
+
+     LEXICON_DEFAULT = c("bing", "loughran", "nrc")
      data(list = "sentiments", package = "tidytext", envir = environment())
      lex <- match.arg(lexicon, LEXICON_DEFAULT)
 
-     if (lex == "afinn") {
-         if (!requireNamespace("textdata", quietly = TRUE)) {
-             stop("The textdata package is required to download the AFINN lexicon. \nInstall the textdata package to access this dataset.",
-                 call. = FALSE)
-        }
-         return(textdata::lexicon_afinn())
-     }
-     else if (lex == "nrc") {
+     if (lex == "nrc") {
          if (!requireNamespace("textdata", quietly = TRUE)) {
              stop("The textdata package is required to download the NRC word-emotion association lexicon. \nInstall the textdata package to access this dataset.",
                  call. = FALSE)
@@ -89,7 +92,7 @@ combinesubjects <- function(list_of_dfs, lex = "nrc"){
 #' @return emotion emotion frequency
 #' @export
 #'
-#' @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}
+#' @seealso \code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 #' @examples
 #'
 #'  out <- emotionFrequency(subjectsAnnotations)
@@ -127,8 +130,8 @@ emotionFrequency <- function(subjectsAnnotations) {
 #' @return topwords associated with the lexicon
 #'
 #' @export
-#' @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}
-#'
+#' @seealso \code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
+#'          \code{\link{polaritychanges}}
 #' @examples
 #'
 #'
@@ -175,7 +178,8 @@ topterms <- function(subjects_annotation, min_top_words = 4){
 #' @return the polarity changes over time.
 #' @export
 #'
-#' @seealso \code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
+#' @seealso \code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#'          \code{\link{polaritychanges}}
 #'
 #' @examples
 #'

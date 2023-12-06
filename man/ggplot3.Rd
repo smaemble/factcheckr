@@ -5,7 +5,15 @@
 \title{This function will provide the most frequently use words in a text plot.
 Display emotions by subject and re-level sentiment so that the different core emotions are}
 \usage{
-ggplot3(text, graphType = "frequency", top = 10, embs = FALSE)
+ggplot3(
+  text,
+  graphType = "frequency",
+  top = 10,
+  embs = FALSE,
+  lexicon = "nrc",
+  maxWords = 50,
+  cutoffScore = 100
+)
 }
 \arguments{
 \item{text}{- text to use to produce the graph, subject to draw emotion from}
@@ -15,9 +23,13 @@ ggplot3(text, graphType = "frequency", top = 10, embs = FALSE)
 \item{top}{- indicated the limit to return after the operation is complete}
 
 \item{embs}{- emotion by subject Boolean graph boolean flag if true}
+
+\item{lexicon}{- the lexicon to be used}
+
+\item{maxWords}{- max number of words that could be used when drawing wordcloud}
 }
 \value{
-will plot the graph type passed to the function
+plot the graph type passed to the function
 }
 \description{
 This function will provide the most frequently use words in a text plot.
@@ -25,21 +37,25 @@ Display emotions by subject and re-level sentiment so that the different core em
 }
 \examples{
 
-annotations <- combinesubjects(list(output, output2), lex="nrc")
+# annotations <- combinesubjects(list(output, output2), lex="nrc")
 
-emotions <- emotionFrequency(annotations)
+# emotions <- emotionFrequency(annotations)
 
-ggplot3(text=annotations)
+# ggplot3(text=annotations)
 
-ggplot3(text=emotions, graphType="emotion", embs=TRUE)
+# ggplot3(text=emotions, graphType="emotion", embs=TRUE)
 
-ggplot3(text=topwords, graphType="topterms")
+# ggplot3(text=topwords, graphType="topterms")
 
-ggplot3(text=annotations, graphType="movingaverage")
+# ggplot3(text=annotations, graphType="movingaverage")
 
-ggplot3(text=emotions, graphType="polarity")
+# ggplot3(text=emotions, graphType="polarity")
+
+# ggplot3(text=reviews, graphType = "wordcloud", lexicon="bing", maxWords = 50)
+
+# ggplot3(text=reviews, graphType = "sentiment", lexicon="bing", cutoffScore = 100)
 
 }
 \seealso{
-\code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}, \code{\link{topterms()}}
+\code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 }

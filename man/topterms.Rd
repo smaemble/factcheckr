@@ -33,5 +33,6 @@ we will remove several core emotion categories and also the polarity.
 # Texas AM statistical trust         1   0.5
 }
 \seealso{
-\code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}
+\code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
+         \code{\link{polaritychanges}}
 }

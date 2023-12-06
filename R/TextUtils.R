@@ -159,11 +159,11 @@ strtokwords <- function(text) {
 #' @export
 #'
 #' @examples
-#' Output <- strtokss("This is a very long character vector. Why is it so long? I think lng. is short for long")
+#' Output <- strtoksentence("This is a very long character vector. Why is it so long? I think lng. is short for long")
 #' # Output[1]: "This is a very long character vector"
 #' # Output[2]: "Why is it so long?"
 #' # Output[3]: "I think lng. is short for long"
-strtokss <- function(text) {
+strtoksentence <- function(text) {
 
   # Convert the text to a character vector
   text <- as.character(text)
@@ -178,31 +178,6 @@ strtokss <- function(text) {
   return(unlist(sentences))
 }
 
-
-tokenizeCorpus <- function(corpus, what=c("word", "sentence"), remove_numbers = FALSE, remove_punct = FALSE,
-                           remove_symbols = FALSE, remove_separators = TRUE, remove_hyphens = FALSE, remove_url = FALSE) {
-  if(is.null(corpus)){
-    stop("corpus cannot be NULL")
-  }
-
-  if(!is.null(what)){
-    token_type <- match.arg(what)
-
-    if (token_type == "word") {
-      corpus <- tokenizeWords(corpus)
-    }
-    else if (token_type == "sentence") {
-      corpus <- tokenizeSentences(corpus)
-    }
-  }
-
-  # Remove numbers using gsub
-  if(remove_numbers) {
-    corpus <- gsub("\\d", "", corpus)
-  }
-
-  return(corpus)
-}
 
 
 #' clean and convert text to lowercase, then to words, remove any extra spaces

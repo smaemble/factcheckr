@@ -11,13 +11,13 @@ reviews2 <-factcheckr::createTestData()
 reviews <- paste(reviews1$Review, collapse = " ")
 
 # Clean the data before processing, cleanCBAS
-reviews <- factcheckr::neatlystart(reviews, "Hotel")
+
 output <- factcheckr::neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
 output2 <- factcheckr::neatlystart("Mit is very expensive, student loans sucks", "MIT")
 
 #out <- factcheckr::removeStopwords(output, data.frame(word = c("texas")))
 #out
-
+reviews <- factcheckr::neatlystart(reviews, "Hotel")
 reviews2 <- factcheckr::neatlystart(reviews2, "Super8")
 
 
@@ -54,21 +54,3 @@ head(subjects)
 emotionGraph(subjects, emotions_by_subject=TRUE)
 
 
-
-source("graph.R")
-# Check words that have contributed to the emotionality of scores
-topwords <- topterms(subjectsAnnotations)
-head(topwords, 50)
-#word cloud
-wcgplot(reviews, "bing")
-wcgplot(reviews2, "bing")
-
-pcgplot(subjects)
-
-head(subjects, 10)
-emotionBySubjectGraph(topwords)
-
-# Calculate the polarity change overtime
-movingAverage <- polarity(subjectsAnnotations)
-
-magplot(movingAverage)

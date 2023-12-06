@@ -27,5 +27,5 @@ prevalence of emotions across different subjects(Products) under analysis.
 #  Texas AM trust                2     5         40
 }
 \seealso{
-\code{\link{combinesubjects()}}, \code{\link{emotionFrequency()}}
+\code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 }

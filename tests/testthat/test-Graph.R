@@ -8,6 +8,8 @@ output2 <- neatlystart("Mit is very expensive, student loans sucks", "MIT")
 nrcResult <- combinesubjects(list(output, output2), lex="nrc")
 bingResult <- combinesubjects(list(output, output2), lex="bing")
 
+#ggplot3(reviews, top=60, graphType="frequency")
+
 testthat::test_that("top must not be less than 5", {
   testthat::expect_error(ggplot3(nrcResult, top=4, graphType="frequency"))
   testthat::expect_error(ggplot3(nrcResult=NULL))
@@ -51,4 +53,21 @@ testthat::test_that("emotion plot", {
 
 #emotionsEdu <- emotionFrequency(bingResult)
 #ggplot3(text=emotionsEdu, graphType="polarity")
+
+#par(mfrow=c(1,1))
+#dev.off()
+#ggplot3(text=reviews, graphType = "wordcloud", lexicon="nrc", maxWords = 75)
+
+#ggplot3(text=reviews, graphType = "wordcloud", lexicon="bing", maxWords = 50)
+
+#ggplot3(text=reviews, graphType = "wordcloud", lexicon="loughran")
+
+#ggplot3(text=reviews, graphType = "sentiment", lexicon="bing", cutoffScore = 800)
+
+#frequencyplotByPolarity(x=reviews, lexicon="bing", N=900)
+
+#reviews
+
+#print(reviews)
+
 
