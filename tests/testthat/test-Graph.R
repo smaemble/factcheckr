@@ -70,4 +70,6 @@ testthat::test_that("emotion plot", {
 
 #print(reviews)
 
+#data.frame(word = c("oneplus")
+
 

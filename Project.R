@@ -38,19 +38,3 @@ frequencyGraph(schoolAnnotations, 25)
 
 factcheckr::ggplot3(text = subjectsAnnotations, graphType ="emotion")
 
-
-
-source("R/Graph.R")
-
-ggplot3(schoolAnnotations, top=15, "frequency")
-
-
-
-subjects <- factcheckr::emotionFrequency(subjectsAnnotations)
-subjects <- factcheckr::emotionFrequency(schoolAnnotations)
-
-head(subjects)
-
-emotionGraph(subjects, emotions_by_subject=TRUE)
-
-
