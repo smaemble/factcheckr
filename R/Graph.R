@@ -74,16 +74,16 @@ ggplot3 <- function(text, graphType = "frequency", top = 10, embs = FALSE,
     x %>%
 
     # We need a word count
-    count(Word, sort = TRUE) %>%
+    dplyr::count(Word, sort = TRUE) %>%
 
     # We want to create a factor from the word column with the levels showing the most frequent words as top level
     # This is just for aestethic reasons, however, it helps make the point
     dplyr::mutate(Word = factor(Word, levels = rev(unique(Word)))) %>%
     # We use the "top" variable defined in the function so we can decide how many words we want to use
-    top_n(top) %>%
+    dplyr::top_n(top) %>%
 
     # Could be useful if grouping variable is necessary
-    ungroup() %>%
+    dplyr::ungroup() %>%
 
     # The graph itself
     ggplot2::ggplot(mapping = ggplot2::aes(x = Word, y = n)) +
@@ -106,7 +106,7 @@ ggplot3 <- function(text, graphType = "frequency", top = 10, embs = FALSE,
     counting_words <- data %>%
       dplyr::filter(n > cutoffScore) %>%
       dplyr::mutate(n = ifelse(sentiment=="negative",-n,n)) %>%
-      dplyr::mutate(Word=reorder(Word,n))
+      dplyr::mutate(Word=dplyr::reorder(Word,n))
 
     splot <- counting_words %>%
       ggplot2::ggplot(ggplot2::aes(Word, n, fill=sentiment)) +

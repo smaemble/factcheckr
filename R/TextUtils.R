@@ -8,6 +8,10 @@
 #' @return the text already with extra spaces removed
 #' @export
 #'
+#' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+#' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#'
 #' @examples
 #' trimText("  This   is  String  ")
 #' # Output: "This is String"
@@ -67,6 +71,10 @@ trimText <- function(str, left=FALSE, right=FALSE) {
 #'
 #' @return the text with spacing removed on the left
 #' @export
+#' @seealso \code{\link{trimText}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+#' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#'
 #'
 #' @examples
 #' trimTextl("  This   is  String  ")
@@ -93,6 +101,9 @@ trimTextl <- function(str) {
 #'
 #' @return  text with spacing removed on the left
 #' @export
+#' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+#' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
 #'
 #' @examples
 #' trimTextr("  This   is  String  ")
@@ -119,6 +130,9 @@ trimTextr <- function(str) {
 #'
 #' @return  an arrays of words tokens
 #' @export
+#' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+#' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
 #'
 #' @examples
 #' Output <- strtokwords("This is a very long character vector.")
@@ -157,6 +171,9 @@ strtokwords <- function(text) {
 #'
 #' @return an arrays of tokens sentences to return
 #' @export
+#' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+#' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
 #'
 #' @examples
 #' Output <- strtoksentence("This is a very long character vector. Why is it so long? I think lng. is short for long")
@@ -189,6 +206,9 @@ strtoksentence <- function(text) {
 #'
 #' @return  An Array of words in this corpus.
 #' @export
+#' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+#' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
 #'
 #' @examples
 #' Output <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
@@ -247,6 +267,9 @@ neatlystart <- function(corpus="", subject="domain") {
 #'
 #' @return dictionary of words with no stop words.
 #' @export
+#' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+#' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
 #'
 #' @examples
 #' words <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
