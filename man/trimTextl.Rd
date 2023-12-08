@@ -19,3 +19,10 @@ helper function to remove left spacing in a text, necessary for data cleanup
 trimTextl("  This   is  String  ")
 # Output: "This   is  String  "
 }
+\seealso{
+\code{\link{trimText}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+
+\code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+
+\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+}

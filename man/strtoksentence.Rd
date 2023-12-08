@@ -21,3 +21,10 @@ Output <- strtoksentence("This is a very long character vector. Why is it so lon
 # Output[2]: "Why is it so long?"
 # Output[3]: "I think lng. is short for long"
 }
+\seealso{
+\code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+
+\code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+
+\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+}

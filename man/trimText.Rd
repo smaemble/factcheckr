@@ -31,3 +31,10 @@ trimText("  This   is  String  ")
 trimText("  This   is  String  ", right=TRUE)
 # Output: "  This   is  String"
 }
+\seealso{
+\code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+
+\code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+
+\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+}

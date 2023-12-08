@@ -35,7 +35,7 @@
 #'
 #'# ggplot3(text=reviews, graphType = "sentiment", lexicon="bing", cutoffScore = 100)
 #'
-ggplot3 <- function(text, graphType = "frequency", top = 10, embs = FALSE,
+ggplot3 <- function(text, graphType = "frequency", top = 50, embs = FALSE,
                     lexicon="nrc", maxWords = 50, cutoffScore=100) {
 
    GRAPH_TYPE = c("frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud")
@@ -106,7 +106,7 @@ ggplot3 <- function(text, graphType = "frequency", top = 10, embs = FALSE,
     counting_words <- data %>%
       dplyr::filter(n > cutoffScore) %>%
       dplyr::mutate(n = ifelse(sentiment=="negative",-n,n)) %>%
-      dplyr::mutate(Word=dplyr::reorder(Word,n))
+      dplyr::mutate(Word=reorder(Word,n))
 
     splot <- counting_words %>%
       ggplot2::ggplot(ggplot2::aes(Word, n, fill=sentiment)) +

@@ -25,3 +25,10 @@ Output <- strtokwords("This is a very long character vector.")
 # Output[6]: "character"
 # Output[7]: "vector"
 }
+\seealso{
+\code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+
+\code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+
+\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+}

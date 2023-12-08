@@ -30,3 +30,10 @@ Output <- removeStopwords(words, data.frame(word = c("texas")))
 #
 # Texas has been removed from the texas as it could be words that means nothing in the study
 }
+\seealso{
+\code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+
+\code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+
+\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+}

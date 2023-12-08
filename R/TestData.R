@@ -1,15 +1,21 @@
 
-createTestData <- function(hotelName="Red Roof Inn Cedar Rapids"){
-    reviews2 <- read.csv("~/Documents/r-workspace/stat600/factcheckr/data/Hotel_Reviews.csv", header = TRUE, sep = ",")
-    print(colnames(reviews2))
-    head(reviews2, 10)
-    unique(reviews2$name)
+#' Basic helper function to rapidly work with the example Hotel_Reviews
+#' dataset shipped with this package
+#'
+#' @param dataset - the hotel review dataset
+#' @param hotelName - the hotel name whose reviews should be extracted
+#'
+#' @return the text collapse into a single text
+#' @export
+#'
+#' @examples
+createTestData <- function(dataset, hotelName="Red Roof Inn Cedar Rapids") {
 
-    reviews2 <- reviews2 %>%
+  dataset <- dataset %>%
       dplyr::filter(name == hotelName) %>%
       dplyr::select(reviews.text)
 
-    reviews2 <- paste(reviews2, collapse = " ")
+  dataset <- paste(dataset, collapse = " ")
 
-    return (reviews2)
+  return (dataset)
 }

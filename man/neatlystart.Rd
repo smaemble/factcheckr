@@ -34,3 +34,10 @@ Output <- neatlystart("Texas A&M has the best Statistical Learning Program in th
 #
 # Clearly has, the, best, in are stopwords and have been removed
 }
+\seealso{
+\code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
+
+\code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+
+\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+}

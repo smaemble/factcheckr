@@ -8,7 +8,7 @@ Display emotions by subject and re-level sentiment so that the different core em
 ggplot3(
   text,
   graphType = "frequency",
-  top = 10,
+  top = 50,
   embs = FALSE,
   lexicon = "nrc",
   maxWords = 50,
