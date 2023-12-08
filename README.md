@@ -21,7 +21,7 @@ library(factcheckr)
 ```
 
 ## Getting started.
-This package comes with two ready to use datasets which can serve as a basic to get an easy start. In this example, we will show a contract between three different hotels reviews. You can follow the same technique on any product reviews, speech etc....
+This package comes with two ready to use datasets which can serve as a basis to get an easy start. In this example, we will show a contract between four different hotels. You can follow the same technique on any product, speech, etc....
 
 ``` r
 
@@ -31,24 +31,44 @@ Motel6 <- createTestData(dataset=Hotel_Reviews, hotelName="Motel 6")
 GovernorHotel <- createTestData(dataset=Hotel_Reviews, hotelName="The Governor Hotel")
 
 ```
-The hotel names can be found in the Hotel_Reviews dataset. This prep operation above just extracts reviews for four different hotels namely Comfort Suites, Super 8, Motel 6 and Governor Hotel. There are 879 different hotels in the Hotel_Reviews dataset and you can follow instructions above to extract any hotels review needed. This does not show yet our package capability. The createTestData() function only works with this test dataset and is not part of this package capability. 
+The hotel names can be found in the Hotel_Reviews dataset. This prep operation above just extracts reviews for four different hotels namely Comfort Suites, Motel 6 and Governor Hotel. There are 879 different hotels in the Hotel_Reviews dataset and you can follow instructions above to extract any hotels review needed. The `createTestData()` function only works with this test dataset and is not part of this package capability. 
 
-## Data clean up: Package capability starts here 
+## Data clean up: Package capability
 We are going to use the `neatlystart()` function to clean up our text data. this function takes a corpus and subject then convert the corpus to lower case, then words, remove any extra spaces, remove stopwords as well as non English words and then create a new column called subject and return a tibble.
 
 ``` r
 nsComfortSuites <- neatlystart(corpus=ComfortSuites, subject="Comfort Suites")
-nsSuper8 <- neatlystart(corpus=Super8, subject="Super 8")
 nsMotel6 <- neatlystart(corpus=Motel6, subject="Motel 6")
 nsGovernorHotel <- neatlystart(corpus=GovernorHotel, subject="The Governor Hotel")
 ```
 
-## factcheckr: Sentiment Analysis on any text data. 
+## Viewing Sentiment Score for specific products 
+
+Use the `ggplot3()` function which takes 04 parameters. The `graphType ="sentiment"` and the `lexicon="bing"`. This package is currently using 03 type of lexicon: `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive cutoffscores.
+
+``` r
+ggplot3(text=nsComfortSuites, graphType = "sentiment", lexicon="bing", cutoffScore = 4)
+```
+Sample sentiment plot for the Governor Hotel
+
+![Image Alt Text](figures/governorsentiment.png)
 
 
+``` r
+ggplot3(text=nsMotel6, graphType = "sentiment", lexicon="bing", cutoffScore = 1)
+```
 
-## factcheckr: Sentiment Analysis on any text data. 
+``` r
+ggplot3(text=nsGovernorHotel, graphType = "sentiment", lexicon="bing", cutoffScore = 1)
+```
 
+## WordCloud Visualization. 
+For the ultimate visualization, we'll generate a word cloud that highlights the most frequently occurring positive and negative words. Specifically, we'll utilize the `ggplot3()` function to craft a single word cloud encompassing both negative and positive words, presenting a comprehensive view.
+```r
+ggplot3(text=nsComfortSuites, graphType = "wordcloud", lexicon="bing", maxWords = 90)
+ggplot3(text=nsMotel6, graphType = "wordcloud", lexicon="bing", maxWords = 25)
+ggplot3(text=nsGovernorHotel, graphType = "wordcloud", lexicon="bing", maxWords = 100)
+```
 
 
 ## factcheckr: Sentiment Analysis on any text data. 
