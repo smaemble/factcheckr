@@ -202,7 +202,7 @@ strtoksentence <- function(text) {
 #' non English words.
 #'
 #' @param corpus  - Text corpus under fact checking to clean before starting the analysis
-#' @param subject - subject domain to apply this study. we recommend using single word
+#' @param subject - subject domain to apply this study.
 #'
 #' @return  An Array of words in this corpus.
 #' @export
