@@ -49,10 +49,9 @@ Use the `ggplot3()` function which takes 04 parameters. The `graphType ="sentime
 ``` r
 ggplot3(text=nsComfortSuites, graphType = "sentiment", lexicon="bing", cutoffScore = 4)
 ```
-Sample sentiment plot for the Governor Hotel
+Sentiment Score plot for the Comfort suites Hotel
 
-![Image Alt Text](figures/governorsentiment.png)
-
+![plot](./man/figures/comfort_sentiment.png)
 
 ``` r
 ggplot3(text=nsMotel6, graphType = "sentiment", lexicon="bing", cutoffScore = 1)
@@ -65,10 +64,10 @@ ggplot3(text=nsGovernorHotel, graphType = "sentiment", lexicon="bing", cutoffSco
 ## WordCloud Visualization. 
 For the ultimate visualization, we'll generate a word cloud that highlights the most frequently occurring positive and negative words. Specifically, we'll utilize the `ggplot3()` function to craft a single word cloud encompassing both negative and positive words, presenting a comprehensive view.
 ```r
-ggplot3(text=nsComfortSuites, graphType = "wordcloud", lexicon="bing", maxWords = 90)
-ggplot3(text=nsMotel6, graphType = "wordcloud", lexicon="bing", maxWords = 25)
 ggplot3(text=nsGovernorHotel, graphType = "wordcloud", lexicon="bing", maxWords = 100)
 ```
+The Governor Hotel Wordcloud which shows a big disappointment
 
+![plot](./man/figures/gov_wc.png)
 
 ## factcheckr: Sentiment Analysis on any text data. 
