@@ -6,7 +6,7 @@
 Display emotions by subject and re-level sentiment so that the different core emotions are}
 \usage{
 ggplot3(
-  text,
+  text = text,
   graphType = "frequency",
   top = 50,
   embs = FALSE,
@@ -40,7 +40,7 @@ Display emotions by subject and re-level sentiment so that the different core em
 # annotations <- combinesubjects(list(output, output2), lex="nrc")
 
 # emotions <- emotionFrequency(annotations)
-
+# polarity <- polaritychanges(annotations)
 # ggplot3(text=annotations)
 
 # ggplot3(text=emotions, graphType="emotion", embs=TRUE)

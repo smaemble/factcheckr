@@ -20,7 +20,8 @@
 #' # annotations <- combinesubjects(list(output, output2), lex="nrc")
 #'
 #' # emotions <- emotionFrequency(annotations)
-#'
+#' # polarity <- polaritychanges(annotations)
+
 #' # ggplot3(text=annotations)
 #'
 #' # ggplot3(text=emotions, graphType="emotion", embs=TRUE)
@@ -35,7 +36,7 @@
 #'
 #'# ggplot3(text=reviews, graphType = "sentiment", lexicon="bing", cutoffScore = 100)
 #'
-ggplot3 <- function(text, graphType = "frequency", top = 50, embs = FALSE,
+ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
                     lexicon="nrc", maxWords = 50, cutoffScore=100) {
 
    GRAPH_TYPE = c("frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud")
@@ -112,7 +113,8 @@ ggplot3 <- function(text, graphType = "frequency", top = 50, embs = FALSE,
       ggplot2::ggplot(ggplot2::aes(Word, n, fill=sentiment)) +
       ggplot2::geom_col() +
       ggplot2::coord_flip() +
-      ggplot2::labs(y="Sentiment Score")
+      ggplot2::labs(y="Sentiment Score") +
+      #ggplot2::ggtitle(Subject)
     (splot)
 
       #print(data)

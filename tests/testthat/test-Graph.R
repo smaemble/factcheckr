@@ -74,3 +74,20 @@ testthat::test_that("emotion plot", {
 
 #str(reviews)
 
+
+# ComfortSuites <- createTestData(dataset=Hotel_Reviews, hotelName="Comfort Suites")
+# Motel6 <- createTestData(dataset=Hotel_Reviews, hotelName="Motel 6")
+# GovernorHotel <- createTestData(dataset=Hotel_Reviews, hotelName="The Governor Hotel")
+#
+# ComfortSuites
+# Super8
+# Motel6
+# GovernorHotel
+#
+# nsComfortSuites <- neatlystart(corpus=ComfortSuites, subject="Comfort Suites")
+# nsMotel6 <- neatlystart(corpus=Motel6, subject="Motel 6")
+# nsGovernorHotel <- neatlystart(corpus=GovernorHotel, subject="The Governor Hotel")
+#
+# nsComfortSuites
+# ggplot3(text=nsComfortSuites, graphType = "sentiment", lexicon="bing", cutoffScore = 5)
+

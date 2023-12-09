@@ -11,7 +11,7 @@ neatlystart(corpus = "", subject = "domain")
 \arguments{
 \item{corpus}{- Text corpus under fact checking to clean before starting the analysis}
 
-\item{subject}{- subject domain to apply this study. we recommend using single word}
+\item{subject}{- subject domain to apply this study.}
 }
 \value{
 An Array of words in this corpus.
