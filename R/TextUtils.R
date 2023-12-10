@@ -10,7 +10,7 @@
 #'
 #' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
 #' trimText("  This   is  String  ")
@@ -73,7 +73,7 @@ trimText <- function(str, left=FALSE, right=FALSE) {
 #' @export
 #' @seealso \code{\link{trimText}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #'
 #' @examples
@@ -103,7 +103,7 @@ trimTextl <- function(str) {
 #' @export
 #' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
 #' trimTextr("  This   is  String  ")
@@ -132,7 +132,7 @@ trimTextr <- function(str) {
 #' @export
 #' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
 #' Output <- strtokwords("This is a very long character vector.")
@@ -173,7 +173,7 @@ strtokwords <- function(text) {
 #' @export
 #' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
 #' Output <- strtoksentence("This is a very long character vector. Why is it so long? I think lng. is short for long")
@@ -208,10 +208,10 @@ strtoksentence <- function(text) {
 #' @export
 #' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
-#' Output <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+#' Output <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
 #' # A tibble: 5 × 2
 #' # Word          Subject
 #' # <chr>         <chr>
@@ -222,7 +222,7 @@ strtoksentence <- function(text) {
 #' # 5 nation      University
 #' #
 #' # Clearly has, the, best, in are stopwords and have been removed
-neatlystart <- function(corpus="", subject="domain") {
+neatlyStart <- function(corpus="", subject="domain") {
 
   if (identical(corpus, NULL)){
     stop ("corpus cannot be null, specify the corpus under fact checking")
@@ -269,10 +269,10 @@ neatlystart <- function(corpus="", subject="domain") {
 #' @export
 #' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @seealso \code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+#' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
-#' words <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+#' words <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
 #' Output <- removeStopwords(words, data.frame(word = c("texas")))
 #' # A tibble: 5 × 2
 #' # Word          Subject

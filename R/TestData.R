@@ -1,6 +1,6 @@
 
 #' Basic helper function to rapidly work with the example Hotel_Reviews
-#' dataset shipped with this package
+#' dataset shipped with this package. It collapses reviews into a single text
 #'
 #' @param dataset - the hotel review dataset
 #' @param hotelName - the hotel name whose reviews should be extracted
@@ -9,6 +9,10 @@
 #' @export
 #'
 #' @examples
+#'
+#' createTestData(dataset=Hotel_Reviews, hotelName="Red Roof Inn Cedar Rapids")
+#'
+#'
 createTestData <- function(dataset, hotelName="Red Roof Inn Cedar Rapids") {
 
   dataset <- dataset %>%

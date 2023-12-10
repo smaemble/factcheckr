@@ -36,5 +36,5 @@ trimText("  This   is  String  ", right=TRUE)
 
 \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 
-\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+\code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 }

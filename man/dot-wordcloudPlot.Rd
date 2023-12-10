@@ -21,3 +21,7 @@ the graph showing the wordcloud of the sentiment analysis
 \description{
 internal helper function to draw wordcloud
 }
+\examples{
+wordcloudPlot(corpus=corpus, lexicon="nrc", maxWords = 50)
+
+}

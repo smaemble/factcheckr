@@ -15,3 +15,8 @@ the lexicon
 \description{
 Load the correct lexicon
 }
+\examples{
+
+loadlexicon(lexicon ="nrc")
+
+}

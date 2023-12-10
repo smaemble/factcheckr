@@ -1,10 +1,10 @@
-# ============= combinesubjects() Test ====================
-output <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
-output2 <- neatlystart("Mit is very expensive, student loans sucks", "MIT")
+# ============= combineSubjects() Test ====================
+output <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
+output2 <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
 
 
-nrcResult <- combinesubjects(list(output, output2), lex="nrc")
-bingResult <- combinesubjects(list(output, output2), lex="bing")
+nrcResult <- combineSubjects(list(output, output2), lex="nrc")
+bingResult <- combineSubjects(list(output, output2), lex="bing")
 
 #first_level <- as.character(levels(nrcResult$sentiment[3])[2])
 

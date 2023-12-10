@@ -23,31 +23,74 @@ library(factcheckr)
 ## Getting started.
 This package comes with two ready to use datasets which can serve as a basis to get an easy start. In this example, we will show a contract between four different hotels. You can follow the same technique on any product, speech, etc....
 
-``` r
+### Basic text functions for text manipulation 
+Break a text into words.
+```r
+> words = strtokwords("This is an example of how to tokenize text in R.")
+> words
+ [,1]      
+ [1,] "this"    
+ [2,] "is"      
+ [3,] "an"      
+ [4,] "example" 
+ [5,] "of"      
+ [6,] "how"     
+ [7,] "to"      
+ [8,] "tokenize"
+ [9,] "text"    
+[10,] "in"      
+[11,] "r"
+```
 
+Breaking a text into sentences.
+```r
+> text <- "This is a very long character vector. Why is it so long? I think lng. is short for long. I want to split this vector into senteces by using e.g. strssplit. Can someone help me? That would be nice?"
+> out <- strtoksentence(text)
+> out
+[1] "This is a very long character vector."
+[2] "Why is it so long?"                          
+[3] "I think lng. is short for long."                                    
+[4] "I want to split this vector into senteces by using e.g. strssplit."
+[5] "Can someone help me?"                                               
+[6] "That would be nice?"
+```
+
+Other text manipulation functions include removing extra spaces from left, right, middle of the string such as
+```r
+>(trimTextl(" This   is  String  "))
+>"This   is  String  "
+>
+>(trimTextr("  This   is  String")) 
+>" This   is  String"
+>
+>(trimText(text))
+>"This is String"
+```
+
+Sentiment Analysis using dataset provided
+
+``` r
 ComfortSuites <- createTestData(dataset=Hotel_Reviews, hotelName="Comfort Suites")
-Super8 <- createTestData(dataset=Hotel_Reviews, hotelName="Super 8")
 Motel6 <- createTestData(dataset=Hotel_Reviews, hotelName="Motel 6")
 GovernorHotel <- createTestData(dataset=Hotel_Reviews, hotelName="The Governor Hotel")
-
 ```
-The hotel names can be found in the Hotel_Reviews dataset. This prep operation above just extracts reviews for four different hotels namely Comfort Suites, Motel 6 and Governor Hotel. There are 879 different hotels in the Hotel_Reviews dataset and you can follow instructions above to extract any hotels review needed. The `createTestData()` function only works with this test dataset and is not part of this package capability. 
+The hotel names can be found in the Hotel_Reviews dataset. Use `unique(Hotel_Reviews$name)` script to view hotel names. This prep operation above extracts reviews for four different hotels namely Comfort Suites, Motel 6 and Governor Hotel and collapse them into a text(corpus) each. There are 879 different hotels in the Hotel_Reviews dataset and you can follow instructions above to extract any hotels review needed. The `createTestData()` function only works with this test dataset and is not part of this package capability. 
 
 ## Data clean up: Package capability
-We are going to use the `neatlystart()` function to clean up our text data. this function takes a corpus and subject then convert the corpus to lower case, then words, remove any extra spaces, remove stopwords as well as non English words and then create a new column called subject and return a tibble.
+We are going to use the `neatlyStart()` function to clean up our text data. this function takes a corpus and subject then convert the corpus to lower case, then words, remove any extra spaces, remove stopwords as well as non English words and then create a new column called subject and return a tibble.
 
 ``` r
-nsComfortSuites <- neatlystart(corpus=ComfortSuites, subject="Comfort Suites")
-nsMotel6 <- neatlystart(corpus=Motel6, subject="Motel 6")
-nsGovernorHotel <- neatlystart(corpus=GovernorHotel, subject="The Governor Hotel")
+nsComfortSuites <- neatlyStart(corpus=ComfortSuites, subject="Comfort Suites")
+nsMotel6 <- neatlyStart(corpus=Motel6, subject="Motel 6")
+nsGovernorHotel <- neatlyStart(corpus=GovernorHotel, subject="The Governor Hotel")
 ```
 
 ## Create a subject annotations for all subjects
 
- Use the `combinesubjects` function by passing a list of neatlystart output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function help analysis all 03 subjects at once so we can draw a contrast.
+ Use the `combineSubjects` function by passing a list of neatlyStart output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function help analysis all 03 subjects at once so we can draw a contrast.
  
 ```r
-nrcSubjects <- factcheckr::combinesubjects(list(nsComfortSuites, nsMotel6, nsGovernorHotel), lex="nrc")
+nrcSubjects <- factcheckr::combineSubjects(list(nsComfortSuites, nsMotel6, nsGovernorHotel), lex="nrc")
 
 # A tibble: 4,119 × 4
 # Groups:   Subject [3]
@@ -69,7 +112,7 @@ nrcSubjects <- factcheckr::combinesubjects(list(nsComfortSuites, nsMotel6, nsGov
 Using bing lexicon gives a comparable results
 
 ```r
-bingSubjects <- factcheckr::combinesubjects(list(nsComfortSuites, nsMotel6, nsGovernorHotel), lex="bing")
+bingSubjects <- factcheckr::combineSubjects(list(nsComfortSuites, nsMotel6, nsGovernorHotel), lex="bing")
 # A tibble: 1,533 × 4
 # Groups:   Subject [3]
    Word           Subject        words sentiment
@@ -92,7 +135,7 @@ bingSubjects <- factcheckr::combinesubjects(list(nsComfortSuites, nsMotel6, nsGo
 Use `ggplot3(text=text, graphType = "frequency", top = 50, embs = FALSE, lexicon="nrc", maxWords = 50, cutoffScore=100)` function to view and analyze 07 graph types namely. The `graphType` can be any of `c("frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud")`. The `lexicon` parameter can be `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive cutoffScores.
 
 ## Viewing Sentiment Score
-the text argument should be the output of the `neatlystart` function
+the text argument should be the output of the `neatlyStart` function
 ``` r
 ggplot3(text=nsComfortSuites, graphType = "sentiment", lexicon="bing", cutoffScore = 4)
 ```
@@ -123,7 +166,49 @@ Use `emotionFrequency()` passing `nrcSubjects` obtained above. Then pass that re
 nrcEmotions <- emotionFrequency(subjectsAnnotations=nrcSubjects)
 ggplot3(text=nrcEmotions, graphType ="emotion")
 ```
+
 ![plot](./man/figures/emotion_freq.png)
+
+
+### Visualizing Emotion by subject
+
+You must pass the `embs=TRUE` parameter to change the plot.
+
+```r
+ggplot3(text=emotionFrequency(subjectsAnnotations=nrcSubjects), embs=TRUE, graphType ="emotion")
+```
+
+![plot](./man/figures/emotion_freq_by_subject.png)
+
+
+We can also examine the words that have influenced the emotionality scores. In simpler terms, we explore which words carry the most significance for the emotion scores within each hotel or subject. To enhance interpretability, we will exclude specific core emotion categories as well as polarity.
+
+```r
+topwords <- topterms(nrcSubjects)
+
+# A tibble: 61 × 5
+# Groups:   Subject, sentiment [12]
+   Subject            Word     sentiment     n score
+   <fct>              <chr>    <fct>     <int> <dbl>
+ 1 Comfort Suites     clean    trust       117 0.476
+ 2 Comfort Suites     clean    joy         117 0.476
+ 3 Comfort Suites     friendly trust        68 0.276
+ 4 Comfort Suites     friendly joy          68 0.276
+ 5 Comfort Suites     helpful  trust        35 0.142
+ 6 Comfort Suites     helpful  joy          35 0.142
+ 7 Comfort Suites     comfort  trust        26 0.106
+ 8 Comfort Suites     comfort  joy          26 0.106
+ 9 Comfort Suites     hot      anger        21 0.412
+10 The Governor Hotel deal     trust        12 0.333
+# ℹ 51 more rows
+```
+
+The plot as 
+```r
+ggplot3(text = topterms(nrcSubjects), graphType ="topterms")
+```
+![plot](./man/figures/topterms_freq.png)
+
 
 ## Moving Average Plot
 The moving average plot tells us how opinions are changing overtime

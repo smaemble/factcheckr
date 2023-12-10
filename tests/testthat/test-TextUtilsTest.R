@@ -61,8 +61,8 @@ testthat::test_that("trimText should expect error", {
 })
 
 
-# ============= neatlystart() ====================
-out <- neatlystart("Texas A&M has the best     Statistical Learning Program in the nation.  ", "University")
+# ============= neatlyStart() ====================
+out <- neatlyStart("Texas A&M has the best     Statistical Learning Program in the nation.  ", "University")
 
 testthat::test_that("stop words and extra spaces must be removed and non english words", {
   testthat::expect_equal(length(out$Word), 5)

@@ -30,5 +30,5 @@ Output <- strtokwords("This is a very long character vector.")
 
 \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 
-\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+\code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 }

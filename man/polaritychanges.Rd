@@ -23,13 +23,13 @@ they serve as a technique for smoothing out erratic time-series data.
 }
 \examples{
 
- out <- polaritychanges (subjects_annotation)
+ out <- polaritychanges (subjects_annotation = combineSubjects(list(subject1, subject2, ...), lex="nrc"))
 
 # Groups:   Subject, sentiment [1]
 # Subject, id ,  rmean
 # <fct>   <int>  <lgl>
 }
 \seealso{
-\code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+\code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
          \code{\link{polaritychanges}}
 }

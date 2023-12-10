@@ -6,14 +6,14 @@
 #' @export
 #'
 #' @examples
-#' # list_of_dfs is mainly a list of neatlystart output results.
+#' # list_of_dfs is mainly a list of neatlyStart output results.
 #' # default lex value are c("afinn", "bing", "loughran", "nrc")
 #'
-#' output <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
+#' output <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
 #'
-#' output2 <- neatlystart("Mit is very expensive, student loans sucks", "MIT")
+#' output2 <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
 #'
-#' annotations <- combinesubjects(list(output, output2), lex="nrc")
+#' annotations <- combineSubjects(list(output, output2), lex="nrc")
 #'
 #' # A tibble: 3 × 4
 #' # Groups:   Subject [1]
@@ -23,13 +23,13 @@
 #' # learning    Texas AM     5 positive
 #' #  nation     Texas AM     5 trust
 #'
-#' annotations <- factcheckr::combinesubjects(list(output, output2), lex="bing")
+#' annotations <- factcheckr::combineSubjects(list(output, output2), lex="bing")
 #'
 #' # Word      Subject words sentiment
 #' # <chr>     <fct>   <int> <fct>
 #' # expensive MIT         5 negative
 #' # sucks     MIT         5 negative
-combinesubjects <- function(list_of_dfs, lex = "nrc"){
+combineSubjects <- function(list_of_dfs, lex = "nrc"){
 
   if(identical(list_of_dfs, NULL)) {
     stop ("list_of_dfs cannot be LULL")
@@ -57,6 +57,9 @@ combinesubjects <- function(list_of_dfs, lex = "nrc"){
 #' @export
 #'
 #' @examples
+#'
+#' loadlexicon(lexicon ="nrc")
+#'
 loadlexicon <- function (lexicon ="nrc")  {
 
      LEXICON_DEFAULT = c("bing", "loughran", "nrc")
@@ -92,7 +95,7 @@ loadlexicon <- function (lexicon ="nrc")  {
 #' @return emotion emotion frequency
 #' @export
 #'
-#' @seealso \code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 #' @examples
 #'
 #'  out <- emotionFrequency(subjectsAnnotations)
@@ -120,9 +123,10 @@ emotionFrequency <- function(subjectsAnnotations) {
 }
 
 
-#' Check words that have contributed to the emotionality of scores. we investigate, which words are more
-#' important for the emotion scores within each subject. For the sake of interpretability,
-#' we will remove several core emotion categories and also the polarity.
+#' We currently examine the words that have influenced the emotionality scores.
+#' In simpler terms, we explore which words carry the most significance for
+#' the emotion scores within each subject. To enhance interpretability, we will exclude
+#' specific core emotion categories as well as polarity.
 #'
 #' @param subjects_annotation - the subject annotation
 #' @param min_top_words - the number of top words to return if any
@@ -130,7 +134,7 @@ emotionFrequency <- function(subjectsAnnotations) {
 #' @return topwords associated with the lexicon
 #'
 #' @export
-#' @seealso \code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
+#' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
 #'          \code{\link{polaritychanges}}
 #' @examples
 #'
@@ -178,12 +182,12 @@ topterms <- function(subjects_annotation, min_top_words = 4){
 #' @return the polarity changes over time.
 #' @export
 #'
-#' @seealso \code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 #'          \code{\link{polaritychanges}}
 #'
 #' @examples
 #'
-#'  out <- polaritychanges (subjects_annotation)
+#'  out <- polaritychanges (subjects_annotation = combineSubjects(list(subject1, subject2, ...), lex="nrc"))
 #'
 #' # Groups:   Subject, sentiment [1]
 #' # Subject, id ,  rmean

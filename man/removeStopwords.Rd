@@ -18,7 +18,7 @@ dictionary of words with no stop words.
 Remove additional stopwords under fact checking
 }
 \examples{
-words <- neatlystart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+words <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
 Output <- removeStopwords(words, data.frame(word = c("texas")))
 # A tibble: 5 × 2
 # Word          Subject
@@ -35,5 +35,5 @@ Output <- removeStopwords(words, data.frame(word = c("texas")))
 
 \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 
-\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+\code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 }

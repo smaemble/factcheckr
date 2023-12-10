@@ -26,5 +26,5 @@ Output <- strtoksentence("This is a very long character vector. Why is it so lon
 
 \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 
-\code{\link{neatlystart}}, \code{\link{removeStopwords}}, \code{\link{combinesubjects}}
+\code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 }

@@ -3,7 +3,7 @@
 \name{createTestData}
 \alias{createTestData}
 \title{Basic helper function to rapidly work with the example Hotel_Reviews
-dataset shipped with this package}
+dataset shipped with this package. It collapses reviews into a single text}
 \usage{
 createTestData(dataset, hotelName = "Red Roof Inn Cedar Rapids")
 }
@@ -17,5 +17,11 @@ the text collapse into a single text
 }
 \description{
 Basic helper function to rapidly work with the example Hotel_Reviews
-dataset shipped with this package
+dataset shipped with this package. It collapses reviews into a single text
+}
+\examples{
+
+createTestData(dataset=Hotel_Reviews, hotelName="Red Roof Inn Cedar Rapids")
+
+
 }

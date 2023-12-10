@@ -4,33 +4,30 @@
 #              ordered from more negative (red) to more positive (blue)
 #'
 #' @param text   - text to use to produce the graph, subject to draw emotion from
-#' @param graphType - the type of graph to plot
+#' @param graphType - type of graph to plot
 #' @param top - indicated the limit to return after the operation is complete
-#' @param embs - emotion by subject Boolean graph boolean flag if true
-#' @param lexicon - the lexicon to be used
+#' @param embs - emotion by subject Boolean graph boolean flag
+#' @param lexicon - lexicon to be used
 #' @param maxWords - max number of words that could be used when drawing wordcloud
 #'
 #' @return plot the graph type passed to the function
 #' @export
 #'
-#' @seealso \code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+#' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 #'
 #' @examples
 #'
-#' # annotations <- combinesubjects(list(output, output2), lex="nrc")
-#'
-#' # emotions <- emotionFrequency(annotations)
 #' # polarity <- polaritychanges(annotations)
 
-#' # ggplot3(text=annotations)
+#' # ggplot3(text=combineSubjects(list(output, output2), lex="nrc"))
 #'
-#' # ggplot3(text=emotions, graphType="emotion", embs=TRUE)
+#' # ggplot3(text=emotionFrequency(annotations), graphType="emotion", embs=TRUE)
 #'
-#' # ggplot3(text=topwords, graphType="topterms")
+#' # ggplot3(text=topterms(nrcSubjects), graphType="topterms")
 #'
-#' # ggplot3(text=annotations, graphType="movingaverage")
+#' # ggplot3(text=combineSubjects(list(output, output2), lex="nrc"), graphType="movingaverage")
 #'
-#' # ggplot3(text=emotions, graphType="polarity")
+#' # ggplot3(text=emotionFrequency(annotations), graphType="polarity")
 #'
 #' # ggplot3(text=reviews, graphType = "wordcloud", lexicon="bing", maxWords = 50)
 #'
@@ -45,15 +42,15 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
    print(paste("ggplot3 call, Selected type:", type))
 
    if(type == "frequency") {
-     .frequencyplot(x=text, top)
+     .frequencyPlot(x=text, top)
    } else if(type == "emotion") {
-     .emotionplot(text, embs)
+     .emotionsPlot(text, embs)
    } else if(type == "topterms") {
      .toptermplot(topwords=text)
    } else if(type == "movingaverage") {
      .magplot(movingAverage=text)
    } else if(type == "polarity") {
-     .polarityplot(subjects=text)
+     .polarityPlot(subjects=text)
    } else if(type == "wordcloud") {
      .wordcloudPlot(corpus=text, lexicon=lexicon, maxWords= maxWords)
    } else if(type == "sentiment") {
@@ -63,7 +60,17 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 }
 
 
-.frequencyplot <- function(x, top = 10) {
+#' Title
+#'
+#' @param x
+#' @param top
+#'
+#' @return
+#' @export
+#'
+#' @examples
+.frequencyPlot <- function(x, top = 10) {
+
     if(identical(x, NULL)) {
       stop(paste("x cannot be null", x))
     }
@@ -94,6 +101,16 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 }
 
 
+#' Title
+#'
+#' @param x
+#' @param lexicon
+#' @param cutoffScore
+#'
+#' @return
+#' @export
+#'
+#' @examples
 .sentimentplot <- function(x, lexicon="bing", cutoffScore = 100) {
 
     if(identical(x, NULL)) {
@@ -113,19 +130,8 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
       ggplot2::ggplot(ggplot2::aes(Word, n, fill=sentiment)) +
       ggplot2::geom_col() +
       ggplot2::coord_flip() +
-      ggplot2::labs(y="Sentiment Score") +
-      #ggplot2::ggtitle(Subject)
+      ggplot2::labs(y="Sentiment Score")
     (splot)
-
-      #print(data)
-      #print(counting_words)
-
-      #text <- "/Users/aoummaembl/Documents/r-workspace/stat600/output.txt"
-      #pdf <- "/Users/aoummaembl/Documents/r-workspace/stat600/output.pdf"
-      #write.table(counting_words, text, sep = "\t", row.names = FALSE)
-      #write.table(data, text, sep = "\t", row.names = FALSE)
-
-      #ggplot2::ggsave(pdf, plot = splot)
 }
 
 
@@ -133,7 +139,16 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 
 # visualize the results and show the scores for each core emotion by subjects(Products)
 # subjects - The subjects to draw emotions from.
-.emotionplot <- function(subjects, embs = FALSE) {
+#' Title
+#'
+#' @param subjects
+#' @param embs
+#'
+#' @return
+#' @export
+#'
+#' @examples
+.emotionsPlot <- function(subjects, embs = FALSE) {
 
   if(identical(subjects, NULL)){
     stop("text cannot be null")
@@ -170,7 +185,17 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 
 # Helper function to visualize the top n words for the core emotion categories.
 # topwords - top words by emotion or top terms
+#' Title
+#'
+#' @param topwords
+#' @param show_legend
+#'
+#' @return
+#' @export
+#'
+#' @examples
 .toptermplot <- function(topwords, show_legend=FALSE) {
+
     if(identical(topwords, NULL)){
       stop("topwords cannot NULL")
     }
@@ -194,11 +219,20 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
     ggplot2::geom_smooth(se = F, col = "black") +
     ggplot2::theme_bw() +
     ggplot2::labs(y = "polarity ratio (rolling mean, k = 100)",
-         x = "index (word in monograph)")
+         x = "index (word in the subject)")
 }
 
 #polarity graph plot function
-.polarityplot <- function(subjects) {
+#' Title
+#'
+#' @param subjects
+#'
+#' @return
+#' @export
+#'
+#' @examples
+.polarityPlot <- function(subjects) {
+
   subjects %>%
     dplyr::filter(sentiment == "positive" | sentiment == "negative") %>%
     dplyr::select(-percentage, -words) %>%
@@ -234,6 +268,8 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 #'
 #'
 #' @examples
+#' wordcloudPlot(corpus=corpus, lexicon="nrc", maxWords = 50)
+#'
 .wordcloudPlot <- function(corpus, lexicon="nrc", maxWords = 50) {
 
   if(identical(corpus, NULL)){

@@ -2,9 +2,10 @@
 % Please edit documentation in R/WordAnalyzer.R
 \name{topterms}
 \alias{topterms}
-\title{Check words that have contributed to the emotionality of scores. we investigate, which words are more
-important for the emotion scores within each subject. For the sake of interpretability,
-we will remove several core emotion categories and also the polarity.}
+\title{We currently examine the words that have influenced the emotionality scores.
+In simpler terms, we explore which words carry the most significance for
+the emotion scores within each subject. To enhance interpretability, we will exclude
+specific core emotion categories as well as polarity.}
 \usage{
 topterms(subjects_annotation, min_top_words = 4)
 }
@@ -17,9 +18,10 @@ topterms(subjects_annotation, min_top_words = 4)
 topwords associated with the lexicon
 }
 \description{
-Check words that have contributed to the emotionality of scores. we investigate, which words are more
-important for the emotion scores within each subject. For the sake of interpretability,
-we will remove several core emotion categories and also the polarity.
+We currently examine the words that have influenced the emotionality scores.
+In simpler terms, we explore which words carry the most significance for
+the emotion scores within each subject. To enhance interpretability, we will exclude
+specific core emotion categories as well as polarity.
 }
 \examples{
 
@@ -33,6 +35,6 @@ we will remove several core emotion categories and also the polarity.
 # Texas AM statistical trust         1   0.5
 }
 \seealso{
-\code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
+\code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
          \code{\link{polaritychanges}}
 }

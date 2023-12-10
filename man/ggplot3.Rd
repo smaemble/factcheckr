@@ -18,11 +18,11 @@ ggplot3(
 \arguments{
 \item{text}{- text to use to produce the graph, subject to draw emotion from}
 
-\item{graphType}{- the type of graph to plot}
+\item{graphType}{- type of graph to plot}
 
 \item{top}{- indicated the limit to return after the operation is complete}
 
-\item{embs}{- emotion by subject Boolean graph boolean flag if true}
+\item{embs}{- emotion by subject Boolean graph boolean flag}
 
 \item{lexicon}{- the lexicon to be used}
 
@@ -37,19 +37,16 @@ Display emotions by subject and re-level sentiment so that the different core em
 }
 \examples{
 
-# annotations <- combinesubjects(list(output, output2), lex="nrc")
-
-# emotions <- emotionFrequency(annotations)
 # polarity <- polaritychanges(annotations)
-# ggplot3(text=annotations)
+# ggplot3(text=combinesubjects(list(output, output2), lex="nrc"))
 
-# ggplot3(text=emotions, graphType="emotion", embs=TRUE)
+# ggplot3(text=emotionFrequency(annotations), graphType="emotion", embs=TRUE)
 
-# ggplot3(text=topwords, graphType="topterms")
+# ggplot3(text=topterms(nrcSubjects), graphType="topterms")
 
-# ggplot3(text=annotations, graphType="movingaverage")
+# ggplot3(text=combinesubjects(list(output, output2), lex="nrc"), graphType="movingaverage")
 
-# ggplot3(text=emotions, graphType="polarity")
+# ggplot3(text=emotionFrequency(annotations), graphType="polarity")
 
 # ggplot3(text=reviews, graphType = "wordcloud", lexicon="bing", maxWords = 50)
 
