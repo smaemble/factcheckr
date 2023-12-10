@@ -1,7 +1,7 @@
 #' Combine subject using Word Emotion Association Lexicon
 #'
 #' @param list_of_dfs - List of data frames subject for each product under fact checking
-#'
+#' @param lex - the lexicon to use.
 #' @return subjects combined
 #' @export
 #'

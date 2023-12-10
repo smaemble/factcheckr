@@ -21,6 +21,6 @@ subjects - The subjects to draw emotions from.
 }
 \examples{
 
-.emotionsPlot(subjects=emotionFrequency(subjectsAnnotations=nrcSubjects), embs=TRUE)
+factcheckr:::.emotionsPlot(subjects=emotionFrequency(subjectsAnnotations=nrcSubjects), embs=TRUE)
 
 }

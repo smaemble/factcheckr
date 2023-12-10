@@ -12,8 +12,6 @@
 \item{lexicon}{- lexicon to use. see documentation for different lexicon supported}
 
 \item{maxWords}{- max number of words to add to the word cloud}
-
-\item{sort_default}{- sorting parameter}
 }
 \value{
 the graph showing the wordcloud of the sentiment analysis

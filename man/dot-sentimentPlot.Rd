@@ -24,5 +24,4 @@ both positive as well as negative words.
 \examples{
 
 .sentimentPlot(x=neatlyStart(corpus=ComfortSuites, subject="Comfort Suites"))
-
 }

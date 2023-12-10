@@ -21,6 +21,6 @@ how the polarity evolves throughout the subject under fact checking
 }
 \examples{
 
-.magplot(movingAverage=polarityChanges(nrcSubjects))
+magplot(movingAverage=polarityChanges(nrcSubjects))
 
 }

@@ -9,7 +9,7 @@
 \arguments{
 \item{topwords}{- tibble of top words}
 
-\item{show_legend.}{- boolean whether legend should be display in the plot or not}
+\item{show_legend}{- boolean whether legend should be display in the plot or not}
 }
 \value{
 tibble of top words by emotion
@@ -19,6 +19,6 @@ Helper function to visualize the top n words for the core emotion categories.
 }
 \examples{
 
-.toptermplot(topwords=.topterms(nrcSubjects))
+toptermplot(topwords=.topterms(nrcSubjects))
 
 }

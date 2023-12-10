@@ -2,7 +2,7 @@
 % Please edit documentation in R/Graph.R
 \name{ggplot3}
 \alias{ggplot3}
-\title{the ggplot3() will plot the words frequency,sentiment score, text emotion using of the known lexicon,
+\title{the ggplot3() function plot the words frequency,sentiment score, text emotion using of the known lexicon,
 topterms, moving average which shows opinion changes overtime, polarity and wordcloud.
 Display emotions by subject and re-level sentiment so that the different core emotions are}
 \usage{
@@ -29,12 +29,14 @@ ggplot3(
 \item{lexicon}{- lexicon to be used}
 
 \item{maxWords}{- max number of words that could be used when drawing wordcloud}
+
+\item{cutoffScore}{- Cut off score parameter useful for sentiment score plot}
 }
 \value{
 plot the graph type passed to the function
 }
 \description{
-the ggplot3() will plot the words frequency,sentiment score, text emotion using of the known lexicon,
+the ggplot3() function plot the words frequency,sentiment score, text emotion using of the known lexicon,
 topterms, moving average which shows opinion changes overtime, polarity and wordcloud.
 Display emotions by subject and re-level sentiment so that the different core emotions are
 }

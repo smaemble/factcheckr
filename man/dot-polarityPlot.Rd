@@ -19,6 +19,6 @@ emotion words divided by the number of negative words
 }
 \examples{
 
-.polarityPlot(subjects=polarityChanges(nrcSubjects))
+polarityPlot(subjects=polarityChanges(nrcSubjects))
 
 }

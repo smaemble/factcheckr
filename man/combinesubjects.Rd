@@ -8,6 +8,8 @@ combineSubjects(list_of_dfs, lex = "nrc")
 }
 \arguments{
 \item{list_of_dfs}{- List of data frames subject for each product under fact checking}
+
+\item{lex}{- the lexicon to use.}
 }
 \value{
 subjects combined
