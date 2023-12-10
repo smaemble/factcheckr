@@ -36,5 +36,5 @@ specific core emotion categories as well as polarity.
 }
 \seealso{
 \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
-         \code{\link{polaritychanges}}
+         \code{\link{polarityChange}}
 }

@@ -135,7 +135,7 @@ emotionFrequency <- function(subjectsAnnotations) {
 #'
 #' @export
 #' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}},
-#'          \code{\link{polaritychanges}}
+#'          \code{\link{polarityChange}}
 #' @examples
 #'
 #'
@@ -183,16 +183,16 @@ topterms <- function(subjects_annotation, min_top_words = 4){
 #' @export
 #'
 #' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#'          \code{\link{polaritychanges}}
+#'          \code{\link{polarityChange}}
 #'
 #' @examples
 #'
-#'  out <- polaritychanges (subjects_annotation = combineSubjects(list(subject1, subject2, ...), lex="nrc"))
+#'  out <- polarityChange (subjects_annotation = combineSubjects(list(subject1, subject2, ...), lex="nrc"))
 #'
 #' # Groups:   Subject, sentiment [1]
 #' # Subject, id ,  rmean
 #' # <fct>   <int>  <lgl>
-polaritychanges <- function(subjects_annotation) {
+polarityChange <- function(subjects_annotation) {
 
   if(identical(subjects_annotation, NULL)){
     stop("subjects_annotation cannot be NULL")

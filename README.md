@@ -213,8 +213,11 @@ ggplot3(text = topterms(nrcSubjects), graphType ="topterms")
 ## Moving Average Plot
 The moving average plot tells us how opinions are changing overtime
 ``` r
-ggplot3(text=nsGovernorHotel, graphType = "sentiment", lexicon="bing", cutoffScore = 1)
+ggplot3(text=polaritychanges(nrcSubjects), graphType="movingaverage")
 ```
+
+![plot](./man/figures/moving_avg.png)
+
 
 ## WordCloud Visualization. 
 For the ultimate visualization, we'll generate a word cloud that highlights the most frequently occurring positive and negative words. Specifically, we'll utilize the `ggplot3()` function to craft a single word cloud encompassing both negative and positive words, presenting a comprehensive view.
@@ -225,4 +228,7 @@ The Governor Hotel Wordcloud which shows a big disappointment
 
 ![plot](./man/figures/gov_wc.png)
 
-## factcheckr: Sentiment Analysis on any text data. 
+
+## Questions and Support
+
+Contact the. maintainer via LinkedIn https://www.linkedin.com/in/armel-oum-maemble/

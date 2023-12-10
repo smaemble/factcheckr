@@ -14,7 +14,7 @@ neatlyStart(corpus = "", subject = "domain")
 \item{subject}{- subject domain to apply this study.}
 }
 \value{
-An Array of words in this corpus.
+An Array(vector) of words in this corpus.
 }
 \description{
 clean and convert text to lowercase, then to words, remove any extra spaces

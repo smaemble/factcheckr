@@ -69,8 +69,8 @@ testthat::test_that("top terms with nrc lexicon", {
 })
 
 
-# ============= polaritychanges() ====================
-(emotionChanges <- polaritychanges(bingResult))
+# ============= polarityChange() ====================
+(emotionChanges <- polarityChange(bingResult))
 
 testthat::test_that("there should be no emotion changes as the data is not enough", {
   testthat::expect_equal(nrow(emotionChanges), 0)

@@ -204,7 +204,7 @@ strtoksentence <- function(text) {
 #' @param corpus  - Text corpus under fact checking to clean before starting the analysis
 #' @param subject - subject domain to apply this study.
 #'
-#' @return  An Array of words in this corpus.
+#' @return  An Array(vector) of words in this corpus.
 #' @export
 #' @seealso \code{\link{trimTextl}}, \code{\link{trimTextr}}, \code{\link{strtokwords}}
 #' @seealso \code{\link{strtoksentence}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}

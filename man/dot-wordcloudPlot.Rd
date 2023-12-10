@@ -7,11 +7,11 @@
 .wordcloudPlot(corpus, lexicon = "nrc", maxWords = 50)
 }
 \arguments{
-\item{corpus}{- corpus to plot wordcloud}
+\item{corpus}{- vector of words to plot wordcloud}
 
 \item{lexicon}{- lexicon to use. see documentation for different lexicon supported}
 
-\item{maxWords}{- max number of words to add to this word cloud}
+\item{maxWords}{- max number of words to add to the word cloud}
 
 \item{sort_default}{- sorting parameter}
 }
@@ -22,6 +22,6 @@ the graph showing the wordcloud of the sentiment analysis
 internal helper function to draw wordcloud
 }
 \examples{
-wordcloudPlot(corpus=corpus, lexicon="nrc", maxWords = 50)
+wordcloudPlot(corpus=neatlyStart(corpus=corpus, subject="Comfort Suites"), lexicon="nrc", maxWords = 50)
 
 }

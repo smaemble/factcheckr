@@ -34,31 +34,3 @@ testthat::test_that("emotion plot", {
   testthat::expect_error(ggplot3(text = NULL, graphType ="topterms"))
 })
 
-#polarity <- polaritychanges(subjectsAnnotations)
-#ggplot3(text = polarity, graphType ="movingaverage")
-
-#emotions <- emotionFrequency(subjectsAnnotations)
-#ggplot3(text=emotions, graphType="polarity")
-
-#emotionsEdu <- emotionFrequency(bingResult)
-#ggplot3(text=emotionsEdu, graphType="polarity")
-
-#par(mfrow=c(1,1))
-#dev.off()
-#ggplot3(text=reviews, graphType = "wordcloud", lexicon="nrc", maxWords = 75)
-
-#ggplot3(text=reviews, graphType = "wordcloud", lexicon="bing", maxWords = 50)
-
-#ggplot3(text=reviews, graphType = "wordcloud", lexicon="loughran")
-
-#ggplot3(text=reviews, graphType = "sentiment", lexicon="bing", cutoffScore = 800)
-
-#frequencyplotByPolarity(x=reviews, lexicon="bing", N=900)
-
-#reviews
-
-#print(reviews)
-
-#data.frame(word = c("oneplus")
-
-#str(reviews)

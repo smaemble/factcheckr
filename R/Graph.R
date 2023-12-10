@@ -1,10 +1,12 @@
 
-#' This function will provide the most frequently use words in a text plot.
+#' the ggplot3() will plot the words frequency,sentiment score, text emotion using of the known lexicon,
+#' topterms, moving average which shows opinion changes overtime, polarity and wordcloud.
 #' Display emotions by subject and re-level sentiment so that the different core emotions are
 #              ordered from more negative (red) to more positive (blue)
 #'
 #' @param text   - text to use to produce the graph, subject to draw emotion from
 #' @param graphType - type of graph to plot
+#'              "frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"
 #' @param top - indicated the limit to return after the operation is complete
 #' @param embs - emotion by subject Boolean graph boolean flag
 #' @param lexicon - lexicon to be used
@@ -17,8 +19,6 @@
 #'
 #' @examples
 #'
-#' # polarity <- polaritychanges(annotations)
-
 #' # ggplot3(text=combineSubjects(list(output, output2), lex="nrc"))
 #'
 #' # ggplot3(text=emotionFrequency(annotations), graphType="emotion", embs=TRUE)
@@ -29,9 +29,9 @@
 #'
 #' # ggplot3(text=emotionFrequency(annotations), graphType="polarity")
 #'
-#' # ggplot3(text=reviews, graphType = "wordcloud", lexicon="bing", maxWords = 50)
+#' # ggplot3(text=neatlyStart(corpus=rawtext, subject="Comfort Suites"), graphType = "wordcloud", lexicon="bing", maxWords = 50)
 #'
-#'# ggplot3(text=reviews, graphType = "sentiment", lexicon="bing", cutoffScore = 100)
+#'# ggplot3(text=neatlyStart(corpus=rawtext, subject="Comfort Suites"), graphType = "sentiment", lexicon="bing", cutoffScore = 100)
 #'
 ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
                     lexicon="nrc", maxWords = 50, cutoffScore=100) {
@@ -39,7 +39,7 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
    GRAPH_TYPE = c("frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud")
    type <- match.arg(graphType, GRAPH_TYPE)
 
-   print(paste("ggplot3 call, Selected type:", type))
+   print(paste("ggplot3 call, Selected Graph type:", type))
 
    if(type == "frequency") {
      .frequencyPlot(x=text, top)
@@ -54,21 +54,23 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
    } else if(type == "wordcloud") {
      .wordcloudPlot(corpus=text, lexicon=lexicon, maxWords= maxWords)
    } else if(type == "sentiment") {
-     .sentimentplot(x=text, lexicon=lexicon, cutoffScore=cutoffScore)
+     .sentimentPlot(x=text, lexicon=lexicon, cutoffScore=cutoffScore)
    }
 
 }
 
 
-#' Title
+#' Plot top Words frequency under the corpus
 #'
-#' @param x
-#' @param top
+#' @param x    - tibble of Word and subject columns created from the neatlyStart function
+#' @param top  - the number of word to show in the frequency plot
 #'
-#' @return
-#' @export
+#' @return the plot
+#'
 #'
 #' @examples
+#'
+#' .frequencyPlot(x=neatlyStart(corpus=Motel6, subject="Motel 6"), top = 100)
 .frequencyPlot <- function(x, top = 10) {
 
     if(identical(x, NULL)) {
@@ -101,17 +103,21 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 }
 
 
-#' Title
+#' Sentiment score visualization base on words score. It plots the scores along the axis labeled with
+#' both positive as well as negative words.
 #'
-#' @param x
-#' @param lexicon
-#' @param cutoffScore
+#' @param x             - A vector of words.
+#' @param lexicon       - one of the lexicon (default is bing.)
+#' @param cutoffScore   - cut off score to include in the plot
 #'
-#' @return
-#' @export
+#' @return              Sentiment Score plot
+#'
 #'
 #' @examples
-.sentimentplot <- function(x, lexicon="bing", cutoffScore = 100) {
+#'
+#' .sentimentPlot(x=neatlyStart(corpus=ComfortSuites, subject="Comfort Suites"))
+#'
+.sentimentPlot <- function(x, lexicon="bing", cutoffScore = 100) {
 
     if(identical(x, NULL)) {
       stop(paste("x cannot be null", x))
@@ -137,17 +143,18 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 
 
 
-# visualize the results and show the scores for each core emotion by subjects(Products)
-# subjects - The subjects to draw emotions from.
-#' Title
+#' visualize the results and show the scores for each core emotion by subjects(Products)
+#' subjects - The subjects to draw emotions from.
 #'
-#' @param subjects
-#' @param embs
+#' @param subjects - A tibble: with 5 columns (Subject,sentiment,sentiment_freq,words,percentage)
+#' @param embs - Boolean whether to show emotions by subject under study or not
 #'
-#' @return
-#' @export
+#' @return emotions plot
 #'
 #' @examples
+#'
+#' .emotionsPlot(subjects=emotionFrequency(subjectsAnnotations=nrcSubjects), embs=TRUE)
+#'
 .emotionsPlot <- function(subjects, embs = FALSE) {
 
   if(identical(subjects, NULL)){
@@ -183,17 +190,18 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 
 
 
-# Helper function to visualize the top n words for the core emotion categories.
-# topwords - top words by emotion or top terms
-#' Title
+#' Helper function to visualize the top n words for the core emotion categories.
 #'
-#' @param topwords
-#' @param show_legend
 #'
-#' @return
-#' @export
+#' @param topwords      - tibble of top words
+#' @param show_legend.  - boolean whether legend should be display in the plot or not
+#'
+#' @return tibble of top words by emotion
 #'
 #' @examples
+#'
+#'.toptermplot(topwords=.topterms(nrcSubjects))
+#'
 .toptermplot <- function(topwords, show_legend=FALSE) {
 
     if(identical(topwords, NULL)){
@@ -211,10 +219,21 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
     ggplot2::labs(x = "Words")
 }
 
-# The moving average plot of polarity change overtime
-# movingAverage - the polarity moving average
-.magplot <- function(movingAverage){
-  ggplot2::ggplot(movingAverage, ggplot2::aes(id, rmean)) +
+#' The moving average plot of polarity change overtime
+#' Showcase the rolling mean values to examine whether there are discernible trends in
+#' how the polarity evolves throughout the subject under fact checking
+#'
+#' @param movingAverage - the polarity moving average
+#'
+#' @return the plot
+#'
+#'
+#' @examples
+#'
+#' .magplot(movingAverage=polarityChanges(nrcSubjects))
+#'
+.magplot <- function(movingAverage) {
+    ggplot2::ggplot(movingAverage, ggplot2::aes(id, rmean)) +
     ggplot2::facet_wrap(vars(Subject), scales="free_x") +
     ggplot2::geom_smooth(se = F, col = "black") +
     ggplot2::theme_bw() +
@@ -222,15 +241,18 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
          x = "index (word in the subject)")
 }
 
-#polarity graph plot function
-#' Title
+
+#' Polarity visualization for each subject. This is the ratio of the number of positive
+#' emotion words divided by the number of negative words
 #'
-#' @param subjects
+#' @param subjects - subject under fact checking
 #'
-#' @return
-#' @export
+#' @return the plot
 #'
 #' @examples
+#'
+#' .polarityPlot(subjects=polarityChanges(nrcSubjects))
+#'
 .polarityPlot <- function(subjects) {
 
   subjects %>%
@@ -259,16 +281,16 @@ ggplot3 <- function(text=text, graphType = "frequency", top = 50, embs = FALSE,
 
 #' internal helper function to draw wordcloud
 #'
-#' @param corpus       - corpus to plot wordcloud
+#' @param corpus       - vector of words to plot wordcloud
 #' @param lexicon      - lexicon to use. see documentation for different lexicon supported
-#' @param maxWords     - max number of words to add to this word cloud
+#' @param maxWords     - max number of words to add to the word cloud
 #' @param sort_default - sorting parameter
 #'
 #' @return the graph showing the wordcloud of the sentiment analysis
 #'
 #'
 #' @examples
-#' wordcloudPlot(corpus=corpus, lexicon="nrc", maxWords = 50)
+#' wordcloudPlot(corpus=neatlyStart(corpus=corpus, subject="Comfort Suites"), lexicon="nrc", maxWords = 50)
 #'
 .wordcloudPlot <- function(corpus, lexicon="nrc", maxWords = 50) {
 

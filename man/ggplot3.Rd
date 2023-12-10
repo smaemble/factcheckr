@@ -2,7 +2,8 @@
 % Please edit documentation in R/Graph.R
 \name{ggplot3}
 \alias{ggplot3}
-\title{This function will provide the most frequently use words in a text plot.
+\title{the ggplot3() will plot the words frequency,sentiment score, text emotion using of the known lexicon,
+topterms, moving average which shows opinion changes overtime, polarity and wordcloud.
 Display emotions by subject and re-level sentiment so that the different core emotions are}
 \usage{
 ggplot3(
@@ -18,13 +19,14 @@ ggplot3(
 \arguments{
 \item{text}{- text to use to produce the graph, subject to draw emotion from}
 
-\item{graphType}{- type of graph to plot}
+\item{graphType}{- type of graph to plot
+"frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"}
 
 \item{top}{- indicated the limit to return after the operation is complete}
 
 \item{embs}{- emotion by subject Boolean graph boolean flag}
 
-\item{lexicon}{- the lexicon to be used}
+\item{lexicon}{- lexicon to be used}
 
 \item{maxWords}{- max number of words that could be used when drawing wordcloud}
 }
@@ -32,27 +34,27 @@ ggplot3(
 plot the graph type passed to the function
 }
 \description{
-This function will provide the most frequently use words in a text plot.
+the ggplot3() will plot the words frequency,sentiment score, text emotion using of the known lexicon,
+topterms, moving average which shows opinion changes overtime, polarity and wordcloud.
 Display emotions by subject and re-level sentiment so that the different core emotions are
 }
 \examples{
 
-# polarity <- polaritychanges(annotations)
-# ggplot3(text=combinesubjects(list(output, output2), lex="nrc"))
+# ggplot3(text=combineSubjects(list(output, output2), lex="nrc"))
 
 # ggplot3(text=emotionFrequency(annotations), graphType="emotion", embs=TRUE)
 
 # ggplot3(text=topterms(nrcSubjects), graphType="topterms")
 
-# ggplot3(text=combinesubjects(list(output, output2), lex="nrc"), graphType="movingaverage")
+# ggplot3(text=combineSubjects(list(output, output2), lex="nrc"), graphType="movingaverage")
 
 # ggplot3(text=emotionFrequency(annotations), graphType="polarity")
 
-# ggplot3(text=reviews, graphType = "wordcloud", lexicon="bing", maxWords = 50)
+# ggplot3(text=neatlyStart(corpus=rawtext, subject="Comfort Suites"), graphType = "wordcloud", lexicon="bing", maxWords = 50)
 
-# ggplot3(text=reviews, graphType = "sentiment", lexicon="bing", cutoffScore = 100)
+# ggplot3(text=neatlyStart(corpus=rawtext, subject="Comfort Suites"), graphType = "sentiment", lexicon="bing", cutoffScore = 100)
 
 }
 \seealso{
-\code{\link{combinesubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+\code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
 }
