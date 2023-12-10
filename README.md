@@ -2,11 +2,30 @@ factcheckr Package
 ================
 Armel Oum Maemble
 
-## factcheckr: Sentiment Analysis on any text data. 
+
+  - [factcheckr: Sentiment Analysis](#factcheckr-Sentiment-Analysis)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Getting started](#getting-started)
+  - [Basic text functions for text manipulation](#basic-text-functions-for-text-manipulation)
+  - [Data clean up: Package capability](#data-clean-up-package-capability)
+  - [Create a subject annotations for all subjects](#create-a-subject-annotations-for-all-subjects)
+  - [Data Visualization](#data-visualization)
+  - [Viewing Sentiment Score](#viewing-sentiment-score)
+  - [Word Frequency](#word-frequency)
+  - [Emotion visualizations accross subjects](#emotion-visualizations-accross-subjects)
+  - [Visualizing Emotion by subject](#visualizing-emotion-by-subject)
+  - [Moving Average Plot](#moving-average-plot)
+  - [WordCloud Visualization](#wordcloud-visualization)
+  - [Questions and Support](#questions-and-support)
+
+## factcheckr: Sentiment Analysis
 
 This package provides utility functions for analyzing any text data including but not limited to functions for tokenizing text, topterms, word frequencies and sentiment analysis.
 
-Sentiment Analysis involves discerning opinions expressed in various texts, categorizing them into different polarities such as positive, negative, or neutral. Also referred to as opinion mining and polarity detection, this process enables the identification of the underlying sentiment within documents, websites, social media feeds, political speeches, reviews and more. Sentiment Analysis is a form of classification, organizing data into distinct classes. These classes may take on a binary form, distinguishing between positive and negative sentiments, or they may encompass multiple categories, such as happy, sad, angry and so forth allowing consumers to make informed decisions before committing to a product.
+Sentiment Analysis involves discerning opinions expressed in various texts, categorizing them into different polarities such as positive, negative, or neutral. Also referred to as opinion mining and polarity detection, this process enables the identification of the underlying sentiment within documents, websites, social media feeds, political speeches, reviews and more. Sentiment Analysis is a form of classification, organizing data into distinct classes. These classes may take on a binary form, distinguishing between positive and negative sentiments, or they may encompass multiple categories, such as happy, sad, angry and so forth. 
+
+This package aims to simplify the effort by providing a utility that can rapidly help mine text data such as reviews by saving time thousands of hours to readers and therefore allowing consumers to make informed decisions before committing to a product.
 
 ## Installation
 
@@ -21,7 +40,7 @@ library(factcheckr)
 ```
 
 ## Getting started.
-This package comes with two ready to use datasets which can serve as a basis to get an easy start. In this example, we will show a contract between four different hotels. You can follow the same technique on any product, speech, etc....
+This package comes with two ready to use datasets which can serve as a basis to get an easy start. In this example, we will show a contrast between three different hotels. You can follow the same technique on any product, speech, etc....
 
 ### Basic text functions for text manipulation 
 Break a text into words.
@@ -87,7 +106,7 @@ nsGovernorHotel <- neatlyStart(corpus=GovernorHotel, subject="The Governor Hotel
 
 ## Create a subject annotations for all subjects
 
- Use the `combineSubjects` function by passing a list of neatlyStart output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function help analysis all 03 subjects at once so we can draw a contrast.
+ Use the `combineSubjects()` function by passing a list of neatlyStart() function output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function combines all 03 subjects at once so we can draw a contrast.
  
 ```r
 nrcSubjects <- factcheckr::combineSubjects(list(nsComfortSuites, nsMotel6, nsGovernorHotel), lex="nrc")
@@ -132,7 +151,7 @@ bingSubjects <- factcheckr::combineSubjects(list(nsComfortSuites, nsMotel6, nsGo
 ```
 ## Data Visualization
 
-Use `ggplot3(text=text, graphType = "frequency", top = 50, embs = FALSE, lexicon="nrc", maxWords = 50, cutoffScore=100)` function to view and analyze 07 graph types namely. The `graphType` can be any of `c("frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud")`. The `lexicon` parameter can be `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive cutoffScores.
+Use `ggplot3(text=text, graphType = "frequency", top = 50, embs = FALSE, lexicon="nrc", maxWords = 50, cutoffScore=100)` function to view and analyze 07 graph types namely: `"frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"`. The `lexicon` parameter can be `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive cutoffScores.
 
 ## Viewing Sentiment Score
 the text argument should be the output of the `neatlyStart` function
@@ -213,7 +232,7 @@ ggplot3(text = topterms(nrcSubjects), graphType ="topterms")
 ## Moving Average Plot
 The moving average plot tells us how opinions are changing overtime
 ``` r
-ggplot3(text=polaritychanges(nrcSubjects), graphType="movingaverage")
+ggplot3(text=polarityChange(nrcSubjects), graphType="movingaverage")
 ```
 
 ![plot](./man/figures/moving_avg.png)
@@ -231,4 +250,4 @@ The Governor Hotel Wordcloud which shows a big disappointment
 
 ## Questions and Support
 
-Contact the. maintainer via LinkedIn https://www.linkedin.com/in/armel-oum-maemble/
+Contact the Maintainer via LinkedIn https://www.linkedin.com/in/armel-oum-maemble/

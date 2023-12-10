@@ -1,7 +1,7 @@
 Package: factcheckr
 Type: Package
 Title: Sentiment Analysis Package
-Version: 0.1.0
+Version: 1.0.0
 Author: Armel Oum Maemble
 Maintainer: Armel Oum Maemble <smaemble@tamu.edu>
 Description: factcheckr provides functions for analyzing text data including but 
