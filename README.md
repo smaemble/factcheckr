@@ -86,17 +86,17 @@ Other text manipulation functions include removing extra spaces from left, right
 >"This is String"
 ```
 
-Sentiment Analysis using dataset provided
+Sentiment Analysis using Hotel_Reviews data set provided.
 
 ``` r
 ComfortSuites <- createTestData(dataset=Hotel_Reviews, hotelName="Comfort Suites")
 Motel6 <- createTestData(dataset=Hotel_Reviews, hotelName="Motel 6")
 GovernorHotel <- createTestData(dataset=Hotel_Reviews, hotelName="The Governor Hotel")
 ```
-The hotel names can be found in the Hotel_Reviews dataset. Use `unique(Hotel_Reviews$name)` script to view hotel names. This prep operation above extracts reviews for four different hotels namely Comfort Suites, Motel 6 and Governor Hotel and collapse them into a text(corpus) each. There are 879 different hotels in the Hotel_Reviews dataset and you can follow instructions above to extract any hotels review needed. The `createTestData()` function only works with this test dataset and is not part of this package capability. 
+The hotel names can be found in the Hotel_Reviews dataset. Use `unique(Hotel_Reviews$name)` script to view hotel names. This prep operation above extracts reviews for three different hotels namely Comfort Suites, Motel 6 and Governor Hotel and collapse them into a text(corpus) each. There are 879 different hotels in the Hotel_Reviews dataset and you can follow instructions above to extract any hotel reviews needed. The `createTestData()` function only works with this test dataset and is not part of this package capability. 
 
 ## Data clean up: Package capability
-We are going to use the `neatlyStart()` function to clean up our text data. this function takes a corpus and subject then convert the corpus to lower case, then words, remove any extra spaces, remove stopwords as well as non English words and then create a new column called subject and return a tibble.
+We are going to use the `neatlyStart()` function to clean up our text data. This function takes a corpus and subject then convert the corpus to lower case, then words, remove any extra spaces, remove stopwords as well as non English words and then create a new column called subject and return a tibble.
 
 ``` r
 nsComfortSuites <- neatlyStart(corpus=ComfortSuites, subject="Comfort Suites")
@@ -106,7 +106,7 @@ nsGovernorHotel <- neatlyStart(corpus=GovernorHotel, subject="The Governor Hotel
 
 ## Create a subject annotations for all subjects
 
- Use the `combineSubjects()` function by passing a list of neatlyStart() function output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function combines all 03 subjects at once so we can draw a contrast.
+ Use the `combineSubjects()` function by passing a list of `neatlyStart()` output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function combines all 03 subjects to draw a better contrast.
  
 ```r
 nrcSubjects <- factcheckr::combineSubjects(list(nsComfortSuites, nsMotel6, nsGovernorHotel), lex="nrc")
@@ -154,7 +154,7 @@ bingSubjects <- factcheckr::combineSubjects(list(nsComfortSuites, nsMotel6, nsGo
 Use `ggplot3(text=text, graphType = "frequency", top = 50, embs = FALSE, lexicon="nrc", maxWords = 50, cutoffScore=100)` function to view and analyze 07 graph types namely: `"frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"`. The `lexicon` parameter can be `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive cutoffScores.
 
 ## Viewing Sentiment Score
-To view the sentiment plot, pass the neatlyStart() output to the text argument of the ggplot3() function
+To view the sentiment plot, pass the `neatlyStart()` output to the text argument of the `ggplot3()` function.
 
 ``` r
 ggplot3(text=nsComfortSuites, graphType = "sentiment", lexicon="bing", cutoffScore = 4)

@@ -8,10 +8,7 @@
 A data frame with 35912 rows and 19 columns.
 }
 \source{
-Fisher, R. A. (1936) The use of multiple measurements in taxonomic problems.
-}
-\usage{
-data(Hotel_Reviews)
+https://www.kaggle.com/datasets/datafiniti/hotel-reviews.
 }
 \description{
 The  hotel reviews for Sentiment Analysis

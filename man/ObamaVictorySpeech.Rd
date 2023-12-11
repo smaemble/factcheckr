@@ -8,11 +8,10 @@
 A single text data object
 }
 \source{
-Fisher, R. A. (1936) The use of multiple measurements in taxonomic problems.
+https://www.npr.org/2008/11/05/96624326/transcript-of-barack-obamas-victory-speech.
 }
 \description{
 A famous dataset in Sentiment Analysis.
-#@usage data(ObamaVictorySpeech)
 }
 \details{
 The Obama Victory Speech dataset
