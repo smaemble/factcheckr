@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 
 ## factcheckr: Sentiment Analysis
 
-This package provides utility functions for analyzing any text data including but not limited to functions for tokenizing text, topterms, word frequencies and sentiment analysis.
+This package provides utility functions for analyzing text data including but not limited to functions for tokenizing text, topterms, word frequency and sentiment analysis to name a few.
 
 Sentiment Analysis involves discerning opinions expressed in various texts, categorizing them into different polarities such as positive, negative, or neutral. Also referred to as opinion mining and polarity detection, this process enables the identification of the underlying sentiment within documents, websites, social media feeds, political speeches, reviews and more. Sentiment Analysis is a form of classification, organizing data into distinct classes. These classes may take on a binary form, distinguishing between positive and negative sentiments, or they may encompass multiple categories, such as happy, sad, angry and so forth. 
 
-This package aims to simplify the effort by providing a utility that can rapidly help mine text data such as reviews by saving time thousands of hours to readers and therefore allowing consumers to make informed decisions before committing to a product.
+This package aims to simplify the Sentiment Analysis(SA) effort by providing a utility that can rapidly help text mining such as reviews by saving thousands of hours to readers and therefore allowing consumers to make informed decisions on consumers products.
 
 ## Installation
 
@@ -51,7 +51,7 @@ Break a text into words.
 Breaking a text into sentences.
 
 ```{r}
-text <- "This is a very long character vector. Why is it so long? I think lng. is short for long. I want to split this vector into senteces by using e.g. strssplit. Can someone help me? That would be nice?"
+text <- "This is a very long character vector. Why is it so long? I think lng. is short for long. I want to split this vector into sentences by using e.g. strssplit. Can someone help me? That would be nice?"
 (strtoksentence(text))
 ```
 
@@ -74,36 +74,24 @@ Remove all extra spaces from any text
 (trimText(" This   is  String  "))
 ```
 
-```{r}
-# nsObama <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
-# nsTrump <- neatlyStart(corpus=TrumpVictorySpeech, subject="Trump Speech")
-# nrcSub <- combineSubjects(list(nsObamaSpeech, nsTrumpSpeech), lex="nrc")
-#    
-# 
-# polarityChange(nrcSub)
-# polarityPlot(subjects=emotionFrequency(subjectsAnnotations=nrcSubjects))
-# output <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
- 
-# toptermplot(topwords=topterms(combineSubjects(list(output), lex="nrc")))
-```
-
 
 ##Sentiment Analysis of President Obama and Trump speeches.
 
 ### Data clean up: Package capability
-We are going to use the `neatlyStart()` function to clean up our text data. this function takes a corpus and subject then convert the corpus to lower case, then words, remove any extra spaces, remove stopwords as well as non English words and then create a new column called subject and return a tibble.
+We are going to use the `neatlyStart()` function to clean up our text data. It takes a `corpus` as a parameter which is a text under the analysis and `subject` domain. It then converts the corpus to lower case, then words, remove any extra spaces, remove stopwords as well as non English words and then create a new column called subject and return a tibble. 
 
 ``` {r}
 nsObamaSpeech <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
 nsTrumpSpeech <- neatlyStart(corpus=TrumpVictorySpeech, subject="Trump Speech")
 ```
 
+
 ### Create a subject annotations for all subjects
 
- Use the `combineSubjects()` function by passing a list of neatlyStart() function output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function combines all 03 subjects at once so we can draw a contrast.
+ Use the `combineSubjects()` function by passing a list of `neatlyStart()` output using 03 of the lexicon `nrc`, `bing` or `loughran`. This function combines all 03 subjects and returns a subject annotation.
  
 ```{r}
-nrcSubjects <- factcheckr::combineSubjects(list(nsObamaSpeech, nsTrumpSpeech), lex="nrc")
+nrcSubjects <- combineSubjects(list(nsObamaSpeech, nsTrumpSpeech), lex="nrc")
 nrcSubjects
 ```
 
@@ -114,42 +102,45 @@ bingSubjects <- factcheckr::combineSubjects(list(nsObamaSpeech, nsTrumpSpeech), 
 bingSubjects
 ```
 
-### Data Visualization
+## Data Visualization
 
-Use `ggplot3(text=text, graphType = "frequency", top = 50, embs = FALSE, lexicon="nrc", maxWords = 50, cutoffScore=100)` function to view and analyze 07 graph types namely: `"frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"`. The `lexicon` parameter can be `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive `cutoffScores`.
+Use `ggplot3(text=corpus, graphType = "frequency", top = 50, embs = FALSE, lexicon="nrc", maxWords = 50, cutoffScore=100)` function to view and analyze 07 graph types namely: `"frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"`. The `lexicon` parameter can be `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive `cutoffScores`.
 
 ### Viewing Sentiment Score
-the text argument should be the output of the `neatlyStart()` function
+To view the sentiment plot, pass the neatlyStart() output to the text argument of the ggplot3() function
 
 ```{r}
 ggplot3(text=nsObamaSpeech, graphType = "sentiment", lexicon="bing", cutoffScore = 1)
 ```
 
-```{r}
+```{r, echo=FALSE}
 ggplot3(text=nsTrumpSpeech, graphType = "sentiment", lexicon="bing", cutoffScore = 1)
 ```
 
 ### Word Frequency
 
-Graph below shows the most frequently used words in Motel6 aggregated Reviews. 
+Graph below shows the most frequently used words in Trump victory speech. 
 
 ``` {r}
 ggplot3(text=nsTrumpSpeech, graphType = "frequency", top = 35)
 ```
+To view the most frequently used words in Obama victory speech pass the result of the neatlyStart() function to the text argument.
+`ggplot3(text=neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech"), graphType = "frequency", top = 30)`
 
 ``` {r}
 ggplot3(text=nsObamaSpeech, graphType = "frequency", top = 30)
 ```
 
-In this top 30 words of Obama speech, we have Americans and American. We can remove American in the analysis and consider it a stopwords. use `removeStopwords()` function to remove one or many stopwords as follows. 
+In this top 30 words of Obama speech, we have `americans` and `american` and it is clear it frequence is equality likely. We can remove American in the analysis and consider it a stopword. use `removeStopwords()` function to remove one or many stopwords as follows. If you run the code below you should see that the words american is no longer present in the histogram. 
 
 ```{r}
-nsObamaSpeech <- removeStopwords(words_dictionary= nsObamaSpeech, stopwords = data.frame(word = c("American")))
+nsObamaSpeech <- removeStopwords(words_dictionary= nsObamaSpeech, stopwords=data.frame(word = c("american")))
+ggplot3(text=nsObamaSpeech, graphType = "frequency", top = 30)
 ```
 
 ### Emotion visualizations accross subjects
 
-To summarize the results of the Sentiment Analysis, the percentages of the prevalence of emotions across these speeches is calculated using `nrc` lexicon because it has multiclass classification with words such as `anger`, `anticipation`, `disgust`, `fear`, `joy`, `sadness`, `surprise` and `trust` while `bing` lexicon classfies only as `positive` or `negative`.
+To summarize the results of the Sentiment Analysis, the percentages of the prevalence of emotions across these speeches is calculated using `nrc` lexicon because it has multiclass classification with words such as `anger`, `anticipation`, `disgust`, `fear`, `joy`, `sadness`, `surprise` and `trust` while `bing` lexicon classifies only as `positive` or `negative`.
 
 Use `emotionFrequency()` passing `nrcSubjects` obtained above. Then pass that result to the `ggplot3()` to visualize the contrast amongst the subjects under fact checking. 
 
@@ -162,7 +153,7 @@ ggplot3(text=nrcEmotions, graphType ="emotion")
 
 ### Visualizing Emotion by subject
 
-You must pass the `embs=TRUE` parameter to change the plot.
+You must pass the `embs=TRUE` parameter to view by subject the plot.
 
 ```{r}
 ggplot3(text=emotionFrequency(subjectsAnnotations=nrcSubjects), embs=TRUE, graphType ="emotion")
@@ -180,7 +171,8 @@ ggplot3(text = topterms(nrcSubjects), graphType ="topterms")
 
 
 ## Moving Average Plot
-The moving average plot tells us how emotions changed in the speech overtime
+The moving average plot tells us how emotions changed in the speech overtime.
+
 ```{r}
 ggplot3(text=polarityChange(nrcSubjects), graphType="movingaverage")
 ```
@@ -205,7 +197,24 @@ If you had run the script, Trump victory speech has more negative tone. Let's re
 nsTrumpSpeech <- removeStopwords(words_dictionary= nsTrumpSpeech, stopwords = data.frame(word = c("unbelievable")))
 ggplot3(text=nsTrumpSpeech, graphType = "wordcloud", lexicon="bing", maxWords = 100)
 ```
+
 Even removing unbelievable did not change Trump Speech.
+
+
+### More factcheckr capabilities
+
+```{r}
+# nsObama <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
+# nsTrump <- neatlyStart(corpus=TrumpVictorySpeech, subject="Trump Speech")
+# nrcSub <- combineSubjects(list(nsObamaSpeech, nsTrumpSpeech), lex="nrc")
+#    
+# 
+# polarityChange(nrcSub)
+# polarityPlot(subjects=emotionFrequency(subjectsAnnotations=nrcSubjects))
+# output <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
+ 
+# toptermplot(topwords=topterms(combineSubjects(list(output), lex="nrc")))
+```
 
 ## Questions and Support
 

@@ -261,6 +261,8 @@ toptermplot <- function(topwords, show_legend=FALSE) {
 #'
 #' @examples
 #'
+#' data(ObamaVictorySpeech)
+#' data(TrumpVictorySpeech)
 #' nsObamaSpeech <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
 #' nsTrumpSpeech <- neatlyStart(corpus=TrumpVictorySpeech, subject="Trump Speech")
 #'

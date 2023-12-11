@@ -21,11 +21,11 @@ Armel Oum Maemble
 
 ## factcheckr: Sentiment Analysis
 
-This package provides utility functions for analyzing any text data including but not limited to functions for tokenizing text, topterms, word frequencies and sentiment analysis.
+This package provides utility functions for analyzing text data including but not limited to functions for tokenizing text, topterms, word frequency and sentiment analysis to name a few.
 
 Sentiment Analysis involves discerning opinions expressed in various texts, categorizing them into different polarities such as positive, negative, or neutral. Also referred to as opinion mining and polarity detection, this process enables the identification of the underlying sentiment within documents, websites, social media feeds, political speeches, reviews and more. Sentiment Analysis is a form of classification, organizing data into distinct classes. These classes may take on a binary form, distinguishing between positive and negative sentiments, or they may encompass multiple categories, such as happy, sad, angry and so forth. 
 
-This package aims to simplify the effort by providing a utility that can rapidly help mine text data such as reviews by saving time thousands of hours to readers and therefore allowing consumers to make informed decisions before committing to a product.
+This package aims to simplify the Sentiment Analysis(SA) effort by providing a utility that can rapidly help text mining such as reviews by saving thousands of hours to readers and therefore allowing consumers to make informed decisions on consumers products.
 
 ## Installation
 
@@ -154,7 +154,8 @@ bingSubjects <- factcheckr::combineSubjects(list(nsComfortSuites, nsMotel6, nsGo
 Use `ggplot3(text=text, graphType = "frequency", top = 50, embs = FALSE, lexicon="nrc", maxWords = 50, cutoffScore=100)` function to view and analyze 07 graph types namely: `"frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"`. The `lexicon` parameter can be `nrc`, `bing` and `loughran`. Words are classified based on the lexicon which contained known words. It is recommended to start with a lower cut off score or you may see an empty plot. Future releases will include suggestive cutoffScores.
 
 ## Viewing Sentiment Score
-the text argument should be the output of the `neatlyStart` function
+To view the sentiment plot, pass the neatlyStart() output to the text argument of the ggplot3() function
+
 ``` r
 ggplot3(text=nsComfortSuites, graphType = "sentiment", lexicon="bing", cutoffScore = 4)
 ```

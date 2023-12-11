@@ -21,6 +21,8 @@ trends in how the polarity evolves throughout the subject under fact checking
 }
 \examples{
 
+data(ObamaVictorySpeech)
+data(TrumpVictorySpeech)
 nsObamaSpeech <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
 nsTrumpSpeech <- neatlyStart(corpus=TrumpVictorySpeech, subject="Trump Speech")
 
