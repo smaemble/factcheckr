@@ -16,7 +16,8 @@ an arrays of tokens sentences to return
 Extracts sentences from text if there is any.
 }
 \examples{
-Output <- strtoksentence("This is a very long character vector. Why is it so long? I think lng. is short for long")
+Output <- strtoksentence("This is a very long character vector. Why is it so long?
+                  I think lng. is short for long")
 # Output[1]: "This is a very long character vector"
 # Output[2]: "Why is it so long?"
 # Output[3]: "I think lng. is short for long"

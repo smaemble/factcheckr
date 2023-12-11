@@ -176,7 +176,8 @@ strtokwords <- function(text) {
 #' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
-#' Output <- strtoksentence("This is a very long character vector. Why is it so long? I think lng. is short for long")
+#' Output <- strtoksentence("This is a very long character vector. Why is it so long?
+#'                   I think lng. is short for long")
 #' # Output[1]: "This is a very long character vector"
 #' # Output[2]: "Why is it so long?"
 #' # Output[3]: "I think lng. is short for long"
@@ -211,7 +212,8 @@ strtoksentence <- function(text) {
 #' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
-#' Output <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+#' Output <- neatlyStart(corpus="Texas A&M has the best Statistical Learning Program.",
+#'                    subject="University")
 #' # A tibble: 5 × 2
 #' # Word          Subject
 #' # <chr>         <chr>
@@ -272,8 +274,10 @@ neatlyStart <- function(corpus="", subject="domain") {
 #' @seealso \code{\link{neatlyStart}}, \code{\link{removeStopwords}}, \code{\link{combineSubjects}}
 #'
 #' @examples
-#' words <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+#' words <- neatlyStart(corpus="Texas A&M has the best Statistical Learning
+#'             Program in the nation.", subject="University")
 #' Output <- removeStopwords(words, data.frame(word = c("texas")))
+#'
 #' # A tibble: 5 × 2
 #' # Word          Subject
 #' # <chr>         <chr>

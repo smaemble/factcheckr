@@ -1,18 +1,16 @@
 ---
 title: "factcheckr"
-output: rmarkdown::html_vignette
-toc: true
-vignette: >
-  %\VignetteIndexEntry{factcheckr}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+author: "Armel Oum Maemble"
+output: 
+  github_document:
+        toc: true
+        toc_depth: 4
+  
 ---
 
+
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
 
@@ -73,20 +71,6 @@ Remove all extra spaces from any text
 
 (trimText(" This   is  String  "))
 ```
-
-```{r}
-# nsObama <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
-# nsTrump <- neatlyStart(corpus=TrumpVictorySpeech, subject="Trump Speech")
-# nrcSub <- combineSubjects(list(nsObamaSpeech, nsTrumpSpeech), lex="nrc")
-#    
-# 
-# polarityChange(nrcSub)
-# polarityPlot(subjects=emotionFrequency(subjectsAnnotations=nrcSubjects))
-# output <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
- 
-# toptermplot(topwords=topterms(combineSubjects(list(output), lex="nrc")))
-```
-
 
 ##Sentiment Analysis of President Obama and Trump speeches.
 

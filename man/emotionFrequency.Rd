@@ -18,8 +18,10 @@ Summarizes the results of the Sentiment Analysis and calculate the percentages o
 prevalence of emotions across different subjects(Products) under analysis.
 }
 \examples{
+ output <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
 
- out <- emotionFrequency(subjectsAnnotations)
+ emotionFreq <- emotionFrequency(subjectsAnnotations=combineSubjects(list(output),
+                   lex="nrc"))
 
 # Subject  sentiment sentiment_freq words percentage
 # <fct>    <fct>              <int> <int>      <dbl>

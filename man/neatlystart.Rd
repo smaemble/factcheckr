@@ -22,7 +22,8 @@ then add new column pass as parameter in the subject, remove all stops words and
 non English words.
 }
 \examples{
-Output <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "University")
+Output <- neatlyStart(corpus="Texas A&M has the best Statistical Learning Program.",
+                   subject="University")
 # A tibble: 5 × 2
 # Word          Subject
 # <chr>         <chr>

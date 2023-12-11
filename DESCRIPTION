@@ -15,18 +15,21 @@ Description: factcheckr provides functions for analyzing text data including but
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: gzip
 RoxygenNote: 7.2.3
 Imports:
-  dplyr,
-  tibble,
-  tidyr,
-  tidytext,
-  tidyverse,
-  textdata,
-  sentimentr,
-  zoo,
-  wordcloud,
-  stringr
+    dplyr,
+    tibble,
+    tidyr,
+    tidytext,
+    tidyverse,
+    textdata,
+    sentimentr,
+    zoo,
+    wordcloud,
+    stringr,
+    ggplot2,
+    reshape2
 Suggests:
   testthat,
   knitr,

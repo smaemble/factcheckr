@@ -7,10 +7,10 @@ In simpler terms, we explore which words carry the most significance for
 the emotion scores within each subject. To enhance interpretability, we will exclude
 specific core emotion categories as well as polarity.}
 \usage{
-topterms(subjects_annotation, min_top_words = 4)
+topterms(subjectsAnnotations, min_top_words = 4)
 }
 \arguments{
-\item{subjects_annotation}{- the subject annotation}
+\item{subjectsAnnotations}{- the subject annotation}
 
 \item{min_top_words}{- the number of top words to return if any}
 }
@@ -25,8 +25,16 @@ specific core emotion categories as well as polarity.
 }
 \examples{
 
+output <- neatlyStart("Texas A&M has the best Statistical Learning Program in
+ the nation.", "Texas AM")
 
- out <- topterms (subjects_annotation)
+output2 <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
+
+annotations <- combineSubjects(list(output, output2), lex="nrc")
+
+
+ out <- topterms (subjectsAnnotations=combineSubjects(list(output, output2),
+  lex="nrc"))
 
 # Groups:   Subject, sentiment [1]
 # Subject  Word        sentiment     n score

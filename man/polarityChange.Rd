@@ -7,10 +7,10 @@ computing rolling or moving averages. It is important to recognize, that while
 rolling averages are not the most effective means for monitoring temporal changes,
 they serve as a technique for smoothing out erratic time-series data.}
 \usage{
-polarityChange(subjects_annotation)
+polarityChange(subjectsAnnotations)
 }
 \arguments{
-\item{subjects_annotation}{- subject annotation to find polarity changes over time}
+\item{subjectsAnnotations}{- subject annotation to find polarity changes over time}
 }
 \value{
 the polarity changes over time.
@@ -23,13 +23,16 @@ they serve as a technique for smoothing out erratic time-series data.
 }
 \examples{
 
- out <- polarityChange (subjects_annotation = combineSubjects(list(subject1, subject2, ...), lex="nrc"))
+ nsObamaSpeech <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
+ nrcSubjects <- combineSubjects(list(nsObamaSpeech), lex="nrc")
+
+ out <- polarityChange(subjectsAnnotations = nrcSubjects)
 
 # Groups:   Subject, sentiment [1]
 # Subject, id ,  rmean
 # <fct>   <int>  <lgl>
 }
 \seealso{
-\code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-         \code{\link{polarityChange}}
+\code{\link{combineSubjects}}, \code{\link{emotionFrequency}},
+         \code{\link{topterms}}, \code{\link{polarityChange}}
 }

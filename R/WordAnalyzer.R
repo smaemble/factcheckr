@@ -9,7 +9,8 @@
 #' # list_of_dfs is mainly a list of neatlyStart output results.
 #' # default lex value are c("afinn", "bing", "loughran", "nrc")
 #'
-#' output <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
+#' output <- neatlyStart("Texas A&M has the best Statistical Learning Program in
+#'  the nation.", "Texas AM")
 #'
 #' output2 <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
 #'
@@ -68,14 +69,18 @@ loadlexicon <- function (lexicon ="nrc")  {
 
      if (lex == "nrc") {
          if (!requireNamespace("textdata", quietly = TRUE)) {
-             stop("The textdata package is required to download the NRC word-emotion association lexicon. \nInstall the textdata package to access this dataset.",
+             stop("The textdata package is required to download the NRC
+                  word-emotion association lexicon. \nInstall the textdata
+                  package to access this dataset.",
                  call. = FALSE)
          }
          return(textdata::lexicon_nrc())
      }
      else if (lex == "loughran") {
          if (!requireNamespace("textdata", quietly = TRUE)) {
-             stop("The textdata package is required to download the Loughran-McDonald lexicon. \nInstall the textdata package to access this dataset.",
+             stop("The textdata package is required to download the
+                  Loughran-McDonald lexicon. \nInstall the textdata package to
+                  access this dataset.",
                  call. = FALSE)
          }
          return(textdata::lexicon_loughran())
@@ -96,9 +101,12 @@ loadlexicon <- function (lexicon ="nrc")  {
 #' @export
 #'
 #' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#' @examples
 #'
-#'  out <- emotionFrequency(subjectsAnnotations)
+#' @examples
+#'  output <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
+#'
+#'  emotionFreq <- emotionFrequency(subjectsAnnotations=combineSubjects(list(output),
+#'                    lex="nrc"))
 #'
 #' # Subject  sentiment sentiment_freq words percentage
 #' # <fct>    <fct>              <int> <int>      <dbl>
@@ -128,7 +136,7 @@ emotionFrequency <- function(subjectsAnnotations) {
 #' the emotion scores within each subject. To enhance interpretability, we will exclude
 #' specific core emotion categories as well as polarity.
 #'
-#' @param subjects_annotation - the subject annotation
+#' @param subjectsAnnotations - the subject annotation
 #' @param min_top_words - the number of top words to return if any
 #'
 #' @return topwords associated with the lexicon
@@ -138,23 +146,31 @@ emotionFrequency <- function(subjectsAnnotations) {
 #'          \code{\link{polarityChange}}
 #' @examples
 #'
+#' output <- neatlyStart("Texas A&M has the best Statistical Learning Program in
+#'  the nation.", "Texas AM")
 #'
-#'  out <- topterms (subjects_annotation)
+#' output2 <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
+#'
+#' annotations <- combineSubjects(list(output, output2), lex="nrc")
+#'
+#'
+#'  out <- topterms (subjectsAnnotations=combineSubjects(list(output, output2),
+#'   lex="nrc"))
 #'
 #' # Groups:   Subject, sentiment [1]
 #' # Subject  Word        sentiment     n score
 #' # <fct>    <chr>       <fct>     <int> <dbl>
 #' # Texas AM nation      trust         1   0.5
 #' # Texas AM statistical trust         1   0.5
-topterms <- function(subjects_annotation, min_top_words = 4){
+topterms <- function(subjectsAnnotations, min_top_words = 4){
 
-  if(identical(subjects_annotation, NULL)){
-    stop("subjects_annotation cannot be NULL")
+  if(identical(subjectsAnnotations, NULL)){
+    stop("subjectsAnnotations cannot be NULL")
   }
   if(!is.numeric(min_top_words) || (min_top_words < 1)){
     stop("min_top_words must be a positive numeric")
   }
-  subjects_annotation %>%
+  subjectsAnnotations %>%
     dplyr::filter(!is.na(sentiment),
                   sentiment != "anticipation",
                   sentiment != "surprise",
@@ -177,28 +193,31 @@ topterms <- function(subjects_annotation, min_top_words = 4){
 #' they serve as a technique for smoothing out erratic time-series data.
 #'
 #'
-#' @param subjects_annotation - subject annotation to find polarity changes over time
+#' @param subjectsAnnotations - subject annotation to find polarity changes over time
 #'
 #' @return the polarity changes over time.
 #' @export
 #'
-#' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
-#'          \code{\link{polarityChange}}
+#' @seealso \code{\link{combineSubjects}}, \code{\link{emotionFrequency}},
+#'          \code{\link{topterms}}, \code{\link{polarityChange}}
 #'
 #' @examples
 #'
-#'  out <- polarityChange (subjects_annotation = combineSubjects(list(subject1, subject2, ...), lex="nrc"))
+#'  nsObamaSpeech <- neatlyStart(corpus=ObamaVictorySpeech, subject="Obama Speech")
+#'  nrcSubjects <- combineSubjects(list(nsObamaSpeech), lex="nrc")
+#'
+#'  out <- polarityChange(subjectsAnnotations = nrcSubjects)
 #'
 #' # Groups:   Subject, sentiment [1]
 #' # Subject, id ,  rmean
 #' # <fct>   <int>  <lgl>
-polarityChange <- function(subjects_annotation) {
+polarityChange <- function(subjectsAnnotations) {
 
-  if(identical(subjects_annotation, NULL)){
-    stop("subjects_annotation cannot be NULL")
+  if(identical(subjectsAnnotations, NULL)){
+    stop("subjectsAnnotations cannot be NULL")
   }
 
-  subjects_annotation %>%
+  subjectsAnnotations %>%
   dplyr::filter(is.na(sentiment) | sentiment == "negative" | sentiment == "positive") %>%
   dplyr::group_by(Subject) %>%
   dplyr::mutate(sentiment = as.character(sentiment),

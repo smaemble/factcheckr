@@ -2,9 +2,11 @@
 % Please edit documentation in R/Graph.R
 \name{ggplot3}
 \alias{ggplot3}
-\title{the ggplot3() function plot the words frequency,sentiment score, text emotion using of the known lexicon,
-topterms, moving average which shows opinion changes overtime, polarity and wordcloud.
-Display emotions by subject and re-level sentiment so that the different core emotions are}
+\title{ggplot3() function plot the words frequency,sentiment score, text emotion
+using of the known lexicon, topterms, moving average which shows opinion changes
+overtime, polarity and wordcloud. Display emotions by subject and re-level
+sentiment so that the different core emotions are ordered from more negative
+(red) to more positive (blue)}
 \usage{
 ggplot3(
   text = text,
@@ -19,8 +21,8 @@ ggplot3(
 \arguments{
 \item{text}{- text to use to produce the graph, subject to draw emotion from}
 
-\item{graphType}{- type of graph to plot
-"frequency","sentiment", "emotion", "topterms", "movingaverage", "polarity", "wordcloud"}
+\item{graphType}{- type of graph to plot: "frequency","sentiment", "emotion",
+"topterms", "movingaverage","polarity", "wordcloud"}
 
 \item{top}{- indicated the limit to return after the operation is complete}
 
@@ -36,27 +38,40 @@ ggplot3(
 plot the graph type passed to the function
 }
 \description{
-the ggplot3() function plot the words frequency,sentiment score, text emotion using of the known lexicon,
-topterms, moving average which shows opinion changes overtime, polarity and wordcloud.
-Display emotions by subject and re-level sentiment so that the different core emotions are
+ggplot3() function plot the words frequency,sentiment score, text emotion
+using of the known lexicon, topterms, moving average which shows opinion changes
+overtime, polarity and wordcloud. Display emotions by subject and re-level
+sentiment so that the different core emotions are ordered from more negative
+(red) to more positive (blue)
 }
 \examples{
 
-# ggplot3(text=combineSubjects(list(output, output2), lex="nrc"))
+output <- neatlyStart(corpus="Texas A&M has the best Statistical Learning Program in
+                    the nation.", subject="Texas AM")
+output2 <- neatlyStart(corpus="Mit is very expensive, student loans sucks",
+                      subject="MIT")
+nrcSubjects <- combineSubjects(list(output), lex="nrc")
 
-# ggplot3(text=emotionFrequency(annotations), graphType="emotion", embs=TRUE)
+ggplot3(text=combineSubjects(list(output, output2), lex="nrc"))
 
-# ggplot3(text=topterms(nrcSubjects), graphType="topterms")
+ggplot3(text=emotionFrequency(nrcSubjects), graphType="emotion", embs=TRUE)
 
-# ggplot3(text=combineSubjects(list(output, output2), lex="nrc"), graphType="movingaverage")
+ggplot3(text=topterms(nrcSubjects), graphType="topterms")
 
-# ggplot3(text=emotionFrequency(annotations), graphType="polarity")
+#ggplot3(text=polarityChange(nrcSubjects), graphType="movingaverage")
 
-# ggplot3(text=neatlyStart(corpus=rawtext, subject="Comfort Suites"), graphType = "wordcloud", lexicon="bing", maxWords = 50)
+ggplot3(text=emotionFrequency(nrcSubjects), graphType="polarity")
 
-# ggplot3(text=neatlyStart(corpus=rawtext, subject="Comfort Suites"), graphType = "sentiment", lexicon="bing", cutoffScore = 100)
+ggplot3(text=neatlyStart(corpus=neatlyStart(corpus=ObamaVictorySpeech,
+subject="Obama Speech"), subject="Comfort Suites"), graphType = "wordcloud",
+lexicon="bing", maxWords = 50)
+
+ggplot3(text=neatlyStart(corpus=neatlyStart(corpus=ObamaVictorySpeech,
+subject="Obama Speech"), subject="Comfort Suites"), graphType = "sentiment",
+lexicon="bing", cutoffScore = 100)
 
 }
 \seealso{
-\code{\link{combineSubjects}}, \code{\link{emotionFrequency}}, \code{\link{topterms}}
+\code{\link{combineSubjects}}, \code{\link{emotionFrequency}},
+         \code{\link{topterms}}
 }

@@ -21,7 +21,8 @@ Combine subject using Word Emotion Association Lexicon
 # list_of_dfs is mainly a list of neatlyStart output results.
 # default lex value are c("afinn", "bing", "loughran", "nrc")
 
-output <- neatlyStart("Texas A&M has the best Statistical Learning Program in the nation.", "Texas AM")
+output <- neatlyStart("Texas A&M has the best Statistical Learning Program in
+ the nation.", "Texas AM")
 
 output2 <- neatlyStart("Mit is very expensive, student loans sucks", "MIT")
 
